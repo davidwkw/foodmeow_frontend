@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import SelectMulti from '../components/Select'
+import {
+    MDBSelect,
+    MDBSelectInput,
+    MDBSelectOptions,
+    MDBSelectOption,
+  } from "mdbreact";
 
 class ResFilter extends Component {
     state = { 
@@ -26,8 +33,7 @@ class ResFilter extends Component {
               <option value="Bar">Bar</option>
               <option value="Barbeque">Barbeque</option>
             </select>
-
-
+            
             <input className='btn btn-primary' type="submit" value="submit" form='filter-restaurant-form' />
             </form>
             </div>
