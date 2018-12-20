@@ -5,10 +5,21 @@ class MultiSelect extends Component {
   constructor() {
     super();
     this.state = {
-      multiSelect: [{ label: 'first', value: true },
-                    { label: 'second' },
-                    { label: 'third' },
-                    { label: 'fourth' }
+      multiSelect: [{ label: 'Chinese', value: true },
+                    { label: 'Malaysian' },
+                    { label: 'Cafes' },
+                    { label: 'Japanese' },
+                    { label: 'Asian Fusion' },
+                    { label: 'Indian' },
+                    { label: 'Thai' },
+                    { label: 'Seafood' },
+                    { label: 'Korean' },
+                    { label: 'Bars' },
+                    { label: 'Noodles' },
+                    { label: 'Italian' },
+                    { label: 'Burgers' },
+                    { label: 'Breakfast' },
+                    { label: 'Desserts' },
                   
                   ],
     };
@@ -24,13 +35,15 @@ class MultiSelect extends Component {
       color: '#8a6d3b',
     };
     return (
-      <div style={{ width: '200px' }}>
-        <MultiSelectReact
+      <div style={{ width: '627px' }} >
+        <MultiSelectReact 
+        className="browser-default custom-select"
           options={this.state.multiSelect}
           optionClicked={this.optionClicked.bind(this)}
           selectedBadgeClicked={this.selectedBadgeClicked.bind(this)}
           selectedOptionsStyles={selectedOptionsStyles}
           optionsListStyles={optionsListStyles}
+          
         />
       </div>
     );

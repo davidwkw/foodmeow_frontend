@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { MDBRangeInput, MDBRow } from "mdbreact";
 import ResFilter from "./pages/ResFilter"
-import SelectMulti from "./components/Select"
 import {geolocated} from 'react-geolocated';
 import axios from 'axios';
 
