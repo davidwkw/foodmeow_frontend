@@ -27,7 +27,6 @@ fetchResData = (e) => {
     url: `https://api.yelp.com/v3/businesses/search?latitude=${this.props.coords.latitude}&longitude=${this.props.coords.longitude}&radius=${this.state.radius}&limit=${this.state.limit}`,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Authorization': `Bearer FkCrNEYXM_yqGVn-Emn5LEx_AKEYyNVPWMCZE2YkovTnUTFfBX_ZhkOJRpBPooSPdawjfoyfoyxUegW-QIIfmcntg7PPdt_ST6GwCCo6jsouacxiQgn5ngIVHL8ZXHYx`,
     },
   })
   .then(res => {
