@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^3.4.0",
     "mdbreact": "^4.8.5-patch.1",
     "multi-select-react": "^0.1.8",
+    "prop-types": "^15.6.2",
     "react": "^16.6.3",
+    "react-bootstrap-slider": "^2.1.5",
     "react-dom": "^16.6.3",
     "react-geolocated": "^2.4.0",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "reactrangeslider": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",

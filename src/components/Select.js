@@ -5,7 +5,12 @@ class MultiSelect extends Component {
   constructor() {
     super();
     this.state = {
-      multiSelect: [{ label: 'first', value: true }, { label: 'second' }],
+      multiSelect: [{ label: 'first', value: true },
+                    { label: 'second' },
+                    { label: 'third' },
+                    { label: 'fourth' }
+                  
+                  ],
     };
   }
 
