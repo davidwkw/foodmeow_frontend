@@ -10,7 +10,41 @@ import {
     Input,
   } from "mdbreact";
   import CheckBox from '../components/CheckBox'
+  import styled from 'styled-components'
+  import cover from '../cover.jpg';
 
+
+  
+
+
+const Layout = styled.div`
+
+`
+const FirstColumn = styled.div`
+float: left;
+overflow: hidden;
+max-width: 700px;
+max-height: 1000px;
+
+>img {
+    width: 100%;
+    height: 100%;
+}
+`
+const SecondColumn = styled.div`
+float: right;
+margin-top: 120px;
+margin-right: 80px;
+
+>h1 {
+
+
+}
+`
+const ResForm = styled.div`
+margin-top: 50px;
+
+`
 
 class ResFilter extends Component {
     constructor(props) {
@@ -51,7 +85,16 @@ class ResFilter extends Component {
 
     render() { 
         return (
-            <div>
+            <Layout>
+
+            <FirstColumn>
+            <img src={cover} />
+            </FirstColumn>
+            <SecondColumn>
+            <h1> Don't know what to eat?</h1>
+            <h1> Let us pick for you.</h1>
+
+            <ResForm>
             <form id="filter-restaurant-form" onSubmit={this.props.handleSubmit}>
             <select className="browser-default custom-select" name="cuisine"  value={this.state.cuisine} onChange={this.handleSelect}>
               <option>What Cuisine would you like?</option>
@@ -65,7 +108,7 @@ class ResFilter extends Component {
 
                 {/* Distance Slider */}
 
-                <label htmlFor="customRange1">How far would you like to travel? {this.state.value} km</label>
+                <label htmlFor="customRange1">How far would you like to travel? {this.state.radius} km</label>
                 <input min="0" max="30" type="range" className="custom-range" id="distance" value={this.state.value} onChange={this.handleDistance} />
 
                 {/* Price Checkbox */}
@@ -80,7 +123,9 @@ class ResFilter extends Component {
               {/* Submit Button */}
             <input className='btn btn-primary' type="submit" value="submit"  form='filter-restaurant-form' />
             </form>
-            </div>
+            </ResForm>
+            </SecondColumn>
+            </Layout>
     
         );
     }

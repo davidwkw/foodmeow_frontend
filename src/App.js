@@ -50,7 +50,7 @@ handleFilter = () => {
         ? <div>Geolocation is not enabled</div>
         : this.props.coords
         ?   <div>
-              <SelectMulti /> 
+              
               <ResFilter handleSubmit={this.fetchResData}/>
             </div> 
           : <div>Getting the location data&hellip; </div>
