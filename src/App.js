@@ -31,12 +31,7 @@ fetchResData = (e) => {
   })
 }
 
-handleFilter = () => {
-  this.setState({
 
-  })
-}
-  
  
   
   render() {
@@ -48,7 +43,7 @@ handleFilter = () => {
         : this.props.coords
         ?   <div>
               
-              <ResFilter handleSubmit={this.fetchResData}/>
+              <ResFilter />
             </div> 
           : <div>Getting the location data&hellip; </div>
 

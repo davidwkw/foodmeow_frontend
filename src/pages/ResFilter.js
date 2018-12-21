@@ -5,7 +5,8 @@ import {
   import CheckBox from '../components/CheckBox'
   import styled from 'styled-components'
   import cover from '../cover.jpg';
-import MultiSelect from '../components/Select';
+import MultiSelectReact from 'multi-select-react';
+
 
 
   
@@ -49,14 +50,32 @@ class ResFilter extends Component {
     constructor(props) {
         super(props)
     this.state = { 
-        cuisine: '',
+        cuisine: {},
         radius: 10,
         price: [
             {id: 1, value: "1", label: "$", isChecked: false},
             {id: 2, value: "2", label: "$$",isChecked: false},
             {id: 3, value: "3", label: "$$$", isChecked: false},
             {id: 4, value: "4", label: "$$$$", isChecked: false}
-          ]
+          ],
+          multiSelect: [{ label: 'Chinese', value: true },
+          { label: 'Malaysian' },
+          { label: 'Cafes' },
+          { label: 'Japanese' },
+          { label: 'Asian Fusion' },
+          { label: 'Indian' },
+          { label: 'Thai' },
+          { label: 'Seafood' },
+          { label: 'Korean' },
+          { label: 'Bars' },
+          { label: 'Noodles' },
+          { label: 'Italian' },
+          { label: 'Burgers' },
+          { label: 'Breakfast' },
+          { label: 'Desserts' },
+        
+        ],
+        selected: [],
 
      }
     }
@@ -80,9 +99,24 @@ class ResFilter extends Component {
     this.setState({price: price})
     }
 
+    handleSubmit = () => {
+        console.log('running')
+        const { multiSelect: selections } = this.state
+        const cuisines = selections.filter(selection => selection.value)
+        console.log(cuisines)
+        
+      }
 
 
     render() { 
+        const selectedOptionsStyles = {
+            color: '#3c763d',
+            backgroundColor: '#dff0d8',
+          };
+          const optionsListStyles = {
+            backgroundColor: '#fcf8e3',
+            color: '#8a6d3b',
+          };
         return (
             <Layout>
 
@@ -94,13 +128,23 @@ class ResFilter extends Component {
             <h1> Let us pick for you.</h1>
 
             
-            <ResForm id="filter-restaurant-form" onSubmit={this.props.handleSubmit}>
+            <ResForm id="filter-restaurant-form" onSubmit={this.handleSubmit}>
             <p> Choose your cuisine:</p>
             
                 {/* Choose Cuisine */}
 
             
-                <MultiSelect />
+            <div style={{ width: '627px' }} >
+                <MultiSelectReact 
+                className="browser-default custom-select"
+                  options={this.state.multiSelect}
+                  optionClicked={this.optionClicked.bind(this)}
+                  selectedBadgeClicked={this.selectedBadgeClicked.bind(this)}
+                  selectedOptionsStyles={selectedOptionsStyles}
+                  optionsListStyles={optionsListStyles}
+                  
+                />
+              </div>
 
 
                 {/* Distance Slider */}
@@ -128,6 +172,20 @@ class ResFilter extends Component {
     
         );
     }
+    optionClicked(optionsList) {
+        console.log(
+          'here the lib adds value false to the selected item',
+          optionsList
+        );
+        this.setState({ multiSelect: optionsList });
+      }
+      selectedBadgeClicked(optionsList) {
+        console.log(
+          'here the lib adds value true to the selected item',
+          optionsList
+        );
+        this.setState({ multiSelect: optionsList });
+      }
 }
  
 export default ResFilter;
