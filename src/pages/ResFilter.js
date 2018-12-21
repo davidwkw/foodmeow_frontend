@@ -9,8 +9,6 @@ import MultiSelectReact from 'multi-select-react';
 
 
 
-  
-
 
 const Layout = styled.div`
 
