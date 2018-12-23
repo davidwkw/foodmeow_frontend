@@ -5,6 +5,8 @@ import {Tabs, Tab} from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import star_1 from '../regular_1.png'
 import star_2 from '../regular_2.png'
+import ReviewCard from '../components/ReviewCard';
+import AboutCard from '../components/AboutCard'
 
 const styles = {
     headline: {
@@ -54,6 +56,11 @@ float: right;
 margin-top: 120px;
 margin-right: 80px;
 `
+const InsideTab = styled.div`
+padding: 80px;
+
+`
+
 
 class RestaurantShowPage extends Component {
     constructor(props){
@@ -111,39 +118,44 @@ for (i = 0; i < 5; i++) {
                 <img src={star_1} />
             </Inline>
                 <hr />
-            </FirstColumn>
 
-
-            <SecondColumn>
-
-            </SecondColumn>
             <MuiThemeProvider>
             <Tabs
             value={this.state.value}
             onChange={this.handleChange}
           >
             <Tab label="About" value="a">
-              <div>
+              <InsideTab>
                 <h2 style={styles.headline}>About</h2>
+                <AboutCard />
                 <p>
                   Tabs are also controllable if you want to programmatically pass them their values.
                   This allows for more functionality in Tabs such as not
                   having any Tab selected or assigning them different values.
                 </p>
-              </div>
+              </InsideTab>
             </Tab>
             <Tab label="Reviews" value="b">
-              <div>
+              <InsideTab>
                 <h2 style={styles.headline}>Reviews</h2>
+
+                <ReviewCard />
+         
                 <p>
                   This is another example of a controllable tab. Remember, if you
                   use controllable Tabs, you need to give all of your tabs values or else
                   you wont be able to select them.
                 </p>
-              </div>
+              </InsideTab>
             </Tab>
           </Tabs>
           </MuiThemeProvider>
+          </FirstColumn>
+
+
+          <SecondColumn>
+
+          </SecondColumn>
           </div>
           );
     }
