@@ -6,6 +6,7 @@ import {
   import styled from 'styled-components'
   import cover from '../cover.jpg';
 import MultiSelectReact from 'multi-select-react';
+import DisplayRestaurants from '../pages/DisplayRestaurants'
 
 
 
@@ -48,6 +49,7 @@ class ResFilter extends Component {
     constructor(props) {
         super(props)
     this.state = { 
+        submitted: false,
         cuisine: {},
         radius: 10,
         price: [
@@ -97,13 +99,33 @@ class ResFilter extends Component {
     this.setState({price: price})
     }
 
-    handleSubmit = () => {
-        console.log('running')
-        const { multiSelect: selections } = this.state
-        const cuisines = selections.filter(selection => selection.value)
-        console.log(cuisines)
+
+    handleSubmit = e => {
+      console.log('running')
+      e.preventDefault();
+      this.setState({'submitted': true });
+      render:  {
+        if (this.state.submitted) {
+            return <DisplayRestaurants />;
+        }
+        else {
+            return (
+                <form role="form" onSubmit={this.handleSubmit}>
+                    <input type="submit" value ="" />
+                </form> 
+            );
+        }
+    }
+    }
+
+
+    // handleSubmit = () => {
+    //     console.log('running')
+    //     const { multiSelect: selections } = this.state
+    //     const cuisines = selections.filter(selection => selection.value)
+    //     console.log(cuisines)
         
-      }
+    //   }
 
 
     render() { 

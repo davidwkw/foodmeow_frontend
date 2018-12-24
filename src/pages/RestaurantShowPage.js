@@ -16,6 +16,8 @@ const styles = {
       fontWeight: 400,
     },
   };
+
+  
   
 const Inline = styled.div`
 display: inline-block;

@@ -50,7 +50,8 @@ class AboutCard extends Component {
         e.preventDefault()
         axios({
           method: 'get',
-          url: `https://api.yelp.com/v3/businesses/search?latitude=${this.props.coords.latitude}&longitude=${this.props.coords.longitude}&radius=${this.state.radius}&limit=${this.state.limit}`,
+        //   url: `https://api.yelp.com/v3/businesses/search?latitude=${this.props.coords.latitude}&longitude=${this.props.coords.longitude}&radius=${this.state.radius}&limit=${this.state.limit}`,
+          url: `https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/0,0,2/600x600?access_token=pk.eyJ1IjoibmFrYW4iLCJhIjoiY2pwdGZuMXNoMDVrNDQ1cDJyeWJqYmsybSJ9.XorrBczUa3M6K5OELMnyow`,
           headers: {
             'Access-Control-Allow-Origin': '*',
           },

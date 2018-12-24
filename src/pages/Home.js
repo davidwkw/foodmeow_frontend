@@ -43,7 +43,7 @@ fetchResData = (e) => {
         : this.props.coords
         ?   <div>
 
-              <ResFilter />
+              <ResFilter coords={this.props.coords}/>
             </div> 
           : <div>Getting the location data&hellip; </div>
 
