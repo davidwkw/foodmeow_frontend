@@ -7,6 +7,10 @@ import {
   import cover from '../cover.jpg';
 import MultiSelectReact from 'multi-select-react';
 import DisplayRestaurants from '../pages/DisplayRestaurants'
+import axios from 'axios';
+import { Redirect } from 'react-router'
+
+
 
 
 
@@ -36,7 +40,7 @@ margin-right: 80px;
 
 }
 `
-const ResForm = styled.div`
+const ResForm = styled.form`
 margin-top: 50px;
 
 
@@ -79,6 +83,32 @@ class ResFilter extends Component {
 
      }
     }
+    fetchResData = (e) => {
+      console.log('runing')
+      // e.preventDefault()
+      axios({
+        method: 'get',
+        url: `https://foodmenow.herokuapp.com/api/v1/businesses/search`,
+        params: {
+          latitude: this.props.coords.latitude,
+          longitude: this.props.coords.longitude8,
+          radius: this.state.radius,
+          limit: 6,
+        },
+        headers: {
+          'Authorization': "Bearer FkCrNEYXM_yqGVn-Emn5LEx_AKEYyNVPWMCZE2YkovTnUTFfBX_ZhkOJRpBPooSPdawjfoyfoyxUegW-QIIfmcntg7PPdt_ST6GwCCo6jsouacxiQgn5ngIVHL8ZXHYx"
+        },
+      })
+      .then(res => {
+        console.log(res)
+        this.setState({
+          submitted: true,
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
     
     handleSelect = ({target}) => {
         this.setState({
@@ -100,10 +130,10 @@ class ResFilter extends Component {
     }
 
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
       console.log('running')
       e.preventDefault();
-      this.setState({'submitted': true });
+      this.fetchResData();
       render:  {
         if (this.state.submitted) {
             return <DisplayRestaurants />;
@@ -118,17 +148,14 @@ class ResFilter extends Component {
     }
     }
 
+  
 
-    // handleSubmit = () => {
-    //     console.log('running')
-    //     const { multiSelect: selections } = this.state
-    //     const cuisines = selections.filter(selection => selection.value)
-    //     console.log(cuisines)
-        
-    //   }
+  
 
 
     render() { 
+        const { submitted } = this.state
+
         const selectedOptionsStyles = {
             color: '#3c763d',
             backgroundColor: '#dff0d8',
@@ -137,6 +164,10 @@ class ResFilter extends Component {
             backgroundColor: '#fcf8e3',
             color: '#8a6d3b',
           };
+
+          if (submitted) {
+            return <Redirect to='/display' />;
+          }
         return (
             <Layout>
 

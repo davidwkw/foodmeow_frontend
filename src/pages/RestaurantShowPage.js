@@ -3,8 +3,7 @@ import foodplaceholder from '../foodplaceholder.jpg'
 import styled from 'styled-components'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import star_1 from '../regular_1.png'
-import star_2 from '../regular_2.png'
+import Star from '../components/stars'
 import ReviewCard from '../components/ReviewCard';
 import AboutCard from '../components/AboutCard'
 
@@ -14,9 +13,9 @@ const styles = {
       paddingTop: 16,
       marginBottom: 12,
       fontWeight: 400,
+ 
     },
   };
-
   
   
 const Inline = styled.div`
@@ -71,7 +70,7 @@ class RestaurantShowPage extends Component {
         name: "Patsagi Kopitiam",
         review_count: 1,
         image_url: '',
-        rating: 1,
+        rating: 4,
         coordinates: {
             latitude: 3.13512959892834,
             longitude: 101.629923507571
@@ -92,18 +91,7 @@ handleChange = (value) => {
     });
     };
 
-imageSource = () => {
-var i;
-var stars;
 
-for (i = 0; i < 5; i++) { 
-   if (i === this.state.rating){
-    var link = "{star_"
-    stars = link.concat(i, '}')
-   }
-   return  <img src={stars} />
-}
-}
 
 
    
@@ -117,11 +105,11 @@ for (i = 0; i < 5; i++) {
                 <h3> {this.state.name}</h3>
                 <h4>  {this.state.price} </h4>
                 <h4> {this.state.categories.title} </h4>
-                <img src={star_1} />
+                <Star number={this.state.rating} />
             </Inline>
                 <hr />
 
-            <MuiThemeProvider>
+            <MuiThemeProvider tabTemplateStyle={{backgroundColor: "white"}}>
             <Tabs
             value={this.state.value}
             onChange={this.handleChange}

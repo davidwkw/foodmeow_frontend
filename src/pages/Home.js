@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ResFilter from "../pages/ResFilter"
 import {geolocated} from 'react-geolocated';
-import axios from 'axios';
 import { BrowserRouter, Route } from 'react-router-dom'
 
 
@@ -17,19 +16,7 @@ class Home extends Component {
   
 
 
-fetchResData = (e) => {
-  e.preventDefault()
-  axios({
-    method: 'get',
-    url: `https://api.yelp.com/v3/businesses/search?latitude=${this.props.coords.latitude}&longitude=${this.props.coords.longitude}&radius=${this.state.radius}&limit=${this.state.limit}`,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-  })
-  .then(res => {
-    console.log(res)
-  })
-}
+
 
 
  
@@ -42,9 +29,10 @@ fetchResData = (e) => {
         ? <div>Geolocation is not enabled</div>
         : this.props.coords
         ?   <div>
-
+  
               <ResFilter coords={this.props.coords}/>
-            </div> 
+              
+              </div> 
           : <div>Getting the location data&hellip; </div>
 
 
