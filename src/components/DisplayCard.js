@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import foodplaceholder2 from '../foodplaceholder2.jpg'
-import star_1 from '../regular_1.png'
+import star_1 from '../regular_1.png';
+import star_2 from '../regular_2.png';
+import star_3 from '../regular_3.png';
+import star_4 from '../regular_4.png';
+import star_5 from '../regular_5.png';
 
 
 const Card = styled.div`
@@ -66,17 +70,34 @@ class DisplayCard extends Component {
     
     
     render() { 
+        const { name, categories, rating, image_url, review_count } = this.props.biz
         return ( 
             <Card>
             <FirstColumn id="first">
-                <h3> {this.state.name} </h3>
-                <h4> {this.state.categories.title} </h4>
-                <img src={star_1} />
+                <h3> {name} </h3>
+                <h4>
+                    {categories.map((item, index) => (
+                       <span key={index}>{item.title}{'  '}</span>
+                    ))}
+                </h4>
+                { rating === 5 
+                    ? <img src={star_5} /> 
+                    : rating >= 4 && rating < 5 
+                        ?  <img src={star_4} />  
+                        : rating >= 3 && rating < 4
+                            ? <img src={star_3} />
+                            : rating >=2 && rating < 3
+                                ? <img src={star_2} />
+                                : rating >= 1 && rating < 2
+                                    ? <img src={star_1} />
+                                    : "Rating not available"   
+                }
+                
                 <button onClick={this.handleClick}> See Restaurant </button>
             
             </FirstColumn>
             <SecondColumn id="second">
-                <img src={foodplaceholder2} />
+                <img src={image_url} />
             </SecondColumn>
             </Card>
          );

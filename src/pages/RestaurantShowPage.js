@@ -100,7 +100,7 @@ handleChange = (value) => {
         return (
             <div>
             <FirstColumn>
-                <img src={foodplaceholder} />
+                <img src={foodplaceholder} alt="food palceholder" />
             <Inline>
                 <h3> {this.state.name}</h3>
                 <h4>  {this.state.price} </h4>

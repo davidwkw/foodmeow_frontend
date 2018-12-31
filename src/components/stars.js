@@ -9,19 +9,19 @@ export default (props) => {
     let star
     switch (props.number) {
         case 1:
-            star = <img src={star_1} />
+            star = <img src={star_1} alt="star1" />
             break;
         case 2:
-            star = <img src={star_2} />
+            star = <img src={star_2} alt="star2" />
             break;
         case 3:
-            star = <img src={star_3} />
+            star = <img src={star_3} alt="star3" />
             break;
         case 4:
-            star = <img src={star_4} />
+            star = <img src={star_4} alt="star4" />
             break;
         case 5:
-            star = <img src={star_5} />
+            star = <img src={star_5} alt="star5" />
             break;
         default:
             break;
