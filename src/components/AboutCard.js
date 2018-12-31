@@ -4,7 +4,7 @@ import mapplaceholder from '../mapplaceholder.png'
 import axios from 'axios';
 
 const Card = styled.div`
-    display: inline-block;
+    display: flex;
     max-width: 800px;
 `
 
