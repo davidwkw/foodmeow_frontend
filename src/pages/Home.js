@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import ResFilter from "../pages/ResFilter"
 import {geolocated} from 'react-geolocated';
+import styled from 'styled-components';
+
+import Loading from "../components/Loading";
+import ResFilter from "../pages/ResFilter";
+
 
 class Home extends Component {
   state = { 
@@ -31,7 +35,10 @@ class Home extends Component {
                 <ResFilter coords={this.props.coords} />
               </div> 
             : 
-              <div>Getting the location data&hellip; </div>
+              <div>
+                <Loading/>
+                <div>Getting the location data&hellip; </div>
+              </div>
     )
     
   }

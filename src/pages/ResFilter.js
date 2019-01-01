@@ -5,10 +5,10 @@ import cover from '../cover.jpg';
 import MultiSelectReact from 'multi-select-react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import Loading from '../components/Loading';
 
 const Layout = styled.div`
 `
-
 const ColumnContainer = styled.div`
   display:flex;
   height: 100vh;
@@ -40,6 +40,7 @@ class ResFilter extends Component {
     constructor(props) {
       super(props)
       this.state = { 
+        loading: false,
         biz: {},
         submitted: false,
         cuisine: {},
@@ -75,6 +76,9 @@ class ResFilter extends Component {
       console.log('fetching Data....')
       console.log(this.props)
       // e.preventDefault()
+      this.setState({
+        loading: true
+      })
       axios({
         method: 'post',
         url: 'https://next-foodme.herokuapp.com/api/v1/businesses/search/',
@@ -94,7 +98,8 @@ class ResFilter extends Component {
         console.log(res)
         this.setState({
           submitted: true,
-          biz: res.data.businesses
+          biz: res.data.businesses,
+          loading: false
         })
         // this.props.updateBiz(res.data.businesses)
         // this.forceUpdate()
@@ -175,6 +180,10 @@ class ResFilter extends Component {
 
         return (
             <Layout>
+                {this.state.loading 
+                ? <Loading />
+                : '' 
+                }
                 <ColumnContainer>
      
                   <FirstColumn>
