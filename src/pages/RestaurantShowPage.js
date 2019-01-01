@@ -47,7 +47,7 @@ const FirstColumn = styled.div`
     float: left;
     overflow: hidden;
     max-width: 100vw;
-    max-height: 1000px;
+    max-height: max-content;
 
     >img {
         max-height: 350px;
@@ -63,6 +63,7 @@ const SecondColumn = styled.div`
 `
 const InsideTab = styled.div`
     padding: 80px;
+    height: 500px;
 `
 
 class RestaurantShowPage extends Component {
@@ -132,34 +133,20 @@ class RestaurantShowPage extends Component {
                     onChange={this.handleChange}
                 >
                     <Tab label="About" value="a">
-                    <InsideTab>
-                        <h2 style={styles.headline}>About</h2>
-                        <AboutCard />
-                        <p>
-                        Tabs are also controllable if you want to programmatically pass them their values.
-                        This allows for more functionality in Tabs such as not
-                        having any Tab selected or assigning them different values.
-                        </p>
-                    </InsideTab>
+                        <InsideTab>
+                            <h2 style={styles.headline}>About</h2>
+                            <AboutCard name={this.state.name} coordinates={this.state.coordinates}/>
+                        </InsideTab>
                     </Tab>
                     <Tab label="Reviews" value="b">
-                    <InsideTab>
-                        <h2 style={styles.headline}>Reviews</h2>
-
-                        <ReviewCard />
-                
-                        <p>
-                        This is another example of a controllable tab. Remember, if you
-                        use controllable Tabs, you need to give all of your tabs values or else
-                        you wont be able to select them.
-                        </p>
-                    </InsideTab>
+                        <InsideTab>
+                            <h2 style={styles.headline}>Reviews</h2>
+                            <ReviewCard />
+                        </InsideTab>
                     </Tab>
                 </Tabs>
                 </MuiThemeProvider>
             </FirstColumn>
-          <SecondColumn>
-          </SecondColumn>
           </div>
           );
     }

@@ -7,24 +7,19 @@ import star_5 from '../regular_5.png'
 
 export default (props) => {
     let star
-    switch (props.number) {
-        case 1:
-            star = <img src={star_1} alt="star1" />
-            break;
-        case 2:
-            star = <img src={star_2} alt="star2" />
-            break;
-        case 3:
-            star = <img src={star_3} alt="star3" />
-            break;
-        case 4:
-            star = <img src={star_4} alt="star4" />
-            break;
-        case 5:
-            star = <img src={star_5} alt="star5" />
-            break;
-        default:
-            break;
+    const { number } = props
+    if (number >= 1 && number < 2) {
+        star = <img src={star_1} alt="star1" />
+    } else if (number >=2 && number < 3) {
+        star = <img src={star_2} alt="star2" />
+    } else if (number >= 3 && number < 4) {
+        star = <img src={star_3} alt="star3" />
+    } else if (number >= 4 && number < 5) {
+        star = <img src={star_4} alt="star4" />
+    } else if (number === 5) {
+        star = <img src={star_5} alt="star5" />
+    } else {
+        star = <p>Rating not available</p> 
     }
     return star
 }

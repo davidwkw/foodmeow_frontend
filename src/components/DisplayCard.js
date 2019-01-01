@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router';
 
-import star_1 from '../regular_1.png';
-import star_2 from '../regular_2.png';
-import star_3 from '../regular_3.png';
-import star_4 from '../regular_4.png';
-import star_5 from '../regular_5.png';
+import Star from './stars'
 
 
 const Card = styled.div`
@@ -73,47 +69,32 @@ class DisplayCard extends Component {
 
     render() { 
         const { id, name, categories, rating, image_url, price } = this.props.biz
+        
+        if (this.state.clicked){
+            return <Redirect to={{
+                    pathname:"/restaurant",
+                    state:{ id: id},                
+                }}
+            />
+        }
+
         return ( 
-            <div>
-                {this.state.clicked
-                    ? <Redirect to={{
-                            pathname:"/restaurant",
-                            state:{
-                                id: id,
-                            }
-                        }} 
-                    />
-                    :
-                    <Card>
-                        <FirstColumn id="first">
-                            <h3> {name} </h3>
-                            <h4>
-                                {categories.map((item, index) => (
-                                <span key={index}>{item.title}{'  '}</span>
-                                ))}
-                            </h4>
-                            <h4>{price}</h4>
-                            { rating === 5 
-                                ? <img src={star_5} alt="5 star" /> 
-                                : rating >= 4 && rating < 5 
-                                    ?  <img src={star_4} alt="4 star"/>  
-                                    : rating >= 3 && rating < 4
-                                        ? <img src={star_3} alt="3 star" />
-                                        : rating >=2 && rating < 3
-                                            ? <img src={star_2} alt="2 star"/>
-                                            : rating >= 1 && rating < 2
-                                                ? <img src={star_1} alt="1 star"/>
-                                                : "Rating not available"   
-                            }
-                            
-                            <button onClick={this.viewRestaurant}> See Restaurant </button>
-                        </FirstColumn>
-                        <SecondColumn id="second">
-                            <img src={image_url} alt="biz cover" />
-                        </SecondColumn>
-                    </Card>
-                }
-            </div>
+            <Card>
+                <FirstColumn id="first">
+                    <h3> {name} </h3>
+                    <h4>
+                        {categories.map((item, index) => (
+                        <span key={index}>{item.title}{'  '}</span>
+                        ))}
+                    </h4>
+                    <h4>{price}</h4>
+                    <Star number={rating} />    
+                    <button onClick={this.viewRestaurant}> See Restaurant </button>
+                </FirstColumn>
+                <SecondColumn id="second">
+                    <img src={image_url} alt="biz cover" />
+                </SecondColumn>
+            </Card>
          );
     }
 }
