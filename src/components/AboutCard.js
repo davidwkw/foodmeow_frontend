@@ -40,12 +40,12 @@ const FirstColumn = styled.div`
 `
 
 class AboutCard extends Component {
-    state = { 
-        hours: 'Mon - Sun 11:00 AM - 9:30 PM',
-        display_address: 'G9 & G9A,Ground Floor, Avenue K, Jalan Ampang, 50450 Kuala Lumpur'
-        ,
+    // state = { 
+    //     hours: 'Mon - Sun 11:00 AM - 9:30 PM',
+    //     display_address: 'G9 & G9A,Ground Floor, Avenue K, Jalan Ampang, 50450 Kuala Lumpur'
+    //     ,
 
-     }
+    //  }
 
     //  fetchMap = (e) => {
     //     e.preventDefault()
@@ -69,11 +69,11 @@ class AboutCard extends Component {
             <Card>
                 <FirstColumn>
                     <h2> Opening Hours </h2>
-                    <h4> {this.state.hours} </h4>
+                    <h4> Mon - Sun 11:00 AM - 9:30 PM </h4>
                 <Spacing />
 
                     <h2> Address </h2>
-                    <h4> {this.state.display_address} </h4>
+                    <h4> {this.props.address} </h4>
                 </FirstColumn>
                 <SecondColumn>
                     <Maps name={this.props.name} coordinates={this.props.coordinates}/>

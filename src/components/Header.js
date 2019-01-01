@@ -4,18 +4,27 @@ import styled from 'styled-components'
 
 
 const Header = styled.div `
-    height: 60px;
-    padding-left:50px;
-    padding-right: 50px;
-    vertical-align: middle;
-
-    >h2 {    
-        vertical-align: middle;
-        display: inline-block;
-        position: absolute;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: green;
+    width: 80px;
+    height: 80px;
+    border-radius: 100%;
+    z-index: 2;
+    box-shadow: 3px 3px 10px grey;
+    vertical-align: bottom;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    > h3 {
         font-size: 16px;
+        font-weight: bold;
+        color:white;
         text-align: center;
-        height: auto
+        margin: 0;
+        
     }
 `
 
@@ -39,7 +48,7 @@ class HeaderNav extends Component {
         }
         return ( 
             <Header>
-                <h2 onClick={this.goBackHome}> logo </h2>
+                <h3 onClick={this.goBackHome}> Food <br/> Me! </h3>
             </Header>
          );
     }

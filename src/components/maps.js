@@ -35,7 +35,7 @@ class Maps extends Component {
   render() {
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height:'500px', width:'100%' }}>
+      <div style={{ height:'350px', width:'100%' }}>
         <GoogleMapReact
           bootstrapURLKeys={{ key:"AIzaSyA0U0FhssUwlIfMiu_qwP4c0gfGWOapDvI" }}
           defaultCenter={this.state.center}

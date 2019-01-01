@@ -18,8 +18,8 @@ const styles = {
   };
   
 const BannerImage = styled.img`
-  width: 100%;
-  min-height: 500px ;
+    width: 100%;
+    min-height: 500px ;
 `
   
 const Inline = styled.div`
@@ -62,8 +62,8 @@ const SecondColumn = styled.div`
     margin-right: 80px;
 `
 const InsideTab = styled.div`
-    padding: 80px;
-    height: 500px;
+    padding: 40px 80px 80px 80px;
+    height: max-content;
 `
 
 class RestaurantShowPage extends Component {
@@ -90,15 +90,17 @@ class RestaurantShowPage extends Component {
             url: `https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`,
         })
         .then( res => {
+            console.log(res)
             this.setState({
                 name: res.data.name,
                 review_count: res.data.review_count,
                 image_url: res.data.image_url,
-                raitng: res.data.raintg,
+                raitng: res.data.rating,
                 coordinates: res.data.coordinates,
                 price: res.data.price,
-                display_address: res.data.address,
+                display_address: res.data.location.display_address.join(", "),
                 categories: res.data.categories,
+                isClosed: res.data.is_closed
             })
         }) 
         .catch( err => {
@@ -134,13 +136,15 @@ class RestaurantShowPage extends Component {
                 >
                     <Tab label="About" value="a">
                         <InsideTab>
-                            <h2 style={styles.headline}>About</h2>
-                            <AboutCard name={this.state.name} coordinates={this.state.coordinates}/>
+                            <AboutCard 
+                                name={this.state.name} 
+                                coordinates={this.state.coordinates}
+                                address={this.state.display_address}
+                            />
                         </InsideTab>
                     </Tab>
                     <Tab label="Reviews" value="b">
                         <InsideTab>
-                            <h2 style={styles.headline}>Reviews</h2>
                             <ReviewCard />
                         </InsideTab>
                     </Tab>
