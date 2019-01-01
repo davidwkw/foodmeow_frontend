@@ -71,19 +71,18 @@ class ReviewCard extends Component {
     render() { 
         return (  
             <div>
-            <Card>
-            <FirstColumn>
-                <img src={placeholder} />
-                <h4> {this.state.name} </h4>
-            
-            
-            </FirstColumn>
-            <SecondColumn>
-                <img src={star_1} />
-                <h4> {this.state.date} </h4>
-                <p> {this.state.review} </p>
-            </SecondColumn>
-            </Card>
+                <Card>
+                    <FirstColumn>
+                        <img src={placeholder} alt="biz" />
+                        <h4> {this.state.name} </h4>
+                    </FirstColumn>
+                    <SecondColumn>
+                        <img src={star_1} alt="rating stars" />
+                        <h4> {this.state.date} </h4>
+                        <p> {this.state.review} </p>
+                    </SecondColumn>
+                </Card>
+                <Spacing/>
             </div>
         );
     }

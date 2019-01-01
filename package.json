@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^3.4.0",
+    "google-map-react": "^1.1.2",
     "material-ui": "^0.20.2",
     "mdbreact": "^4.8.5-patch.1",
     "multi-select-react": "^0.1.8",
@@ -16,7 +17,7 @@
     "react-geolocated": "^2.4.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
+    "react-scripts": "^2.1.2",
     "reactrangeslider": "^3.0.6",
     "styled-components": "^4.1.3"
   },

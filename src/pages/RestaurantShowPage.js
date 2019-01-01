@@ -89,7 +89,6 @@ class RestaurantShowPage extends Component {
             url: `https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`,
         })
         .then( res => {
-            console.log(res)
             this.setState({
                 name: res.data.name,
                 review_count: res.data.review_count,
@@ -115,7 +114,14 @@ class RestaurantShowPage extends Component {
                 <Inline>
                     <h3> {this.state.name}</h3>
                     <h4> {this.state.price} </h4>
-                    <h4> </h4>
+                    <h4> 
+                        {this.state.categories[0] !== undefined
+                            ? this.state.categories.map((item, index) => (
+                                <span key={index}>{item.title}{" "}</span>
+                              ))
+                            : <p>No categories available</p>
+                        }
+                    </h4>
                     <Star number={this.state.rating} />
                 </Inline>
                     <hr />

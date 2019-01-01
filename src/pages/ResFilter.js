@@ -3,7 +3,6 @@ import CheckBox from '../components/CheckBox';
 import styled from 'styled-components';
 import cover from '../cover.jpg';
 import MultiSelectReact from 'multi-select-react';
-import DisplayRestaurants from '../pages/DisplayRestaurants';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 
@@ -179,7 +178,7 @@ class ResFilter extends Component {
                 <ColumnContainer>
      
                   <FirstColumn>
-                    <img src={cover} />
+                    <img src={cover} alt="cover" />
                   </FirstColumn>
                   <SecondColumn>
                     <h1> Don't know what to eat?</h1>

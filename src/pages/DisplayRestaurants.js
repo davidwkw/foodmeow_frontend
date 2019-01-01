@@ -22,8 +22,8 @@ class DisplayRestaurants extends Component {
     return ( 
       <div>
       <Display>
-        {this.props.location.state.biz.map( (biz,index) => (
-          <DisplayCard index={index} biz={biz} />
+        {this.props.location.state.biz.map( (biz) => (
+          <DisplayCard key={biz.id} biz={biz} />
         ))}
       </Display>
       </div>

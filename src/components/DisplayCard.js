@@ -94,22 +94,22 @@ class DisplayCard extends Component {
                             </h4>
                             <h4>{price}</h4>
                             { rating === 5 
-                                ? <img src={star_5} /> 
+                                ? <img src={star_5} alt="5 star" /> 
                                 : rating >= 4 && rating < 5 
-                                    ?  <img src={star_4} />  
+                                    ?  <img src={star_4} alt="4 star"/>  
                                     : rating >= 3 && rating < 4
-                                        ? <img src={star_3} />
+                                        ? <img src={star_3} alt="3 star" />
                                         : rating >=2 && rating < 3
-                                            ? <img src={star_2} />
+                                            ? <img src={star_2} alt="2 star"/>
                                             : rating >= 1 && rating < 2
-                                                ? <img src={star_1} />
+                                                ? <img src={star_1} alt="1 star"/>
                                                 : "Rating not available"   
                             }
                             
                             <button onClick={this.viewRestaurant}> See Restaurant </button>
                         </FirstColumn>
                         <SecondColumn id="second">
-                            <img src={image_url} />
+                            <img src={image_url} alt="biz cover" />
                         </SecondColumn>
                     </Card>
                 }

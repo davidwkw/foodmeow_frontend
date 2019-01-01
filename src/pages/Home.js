@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ResFilter from "../pages/ResFilter"
 import {geolocated} from 'react-geolocated';
-import { BrowserRouter, Route } from 'react-router-dom'
 
 class Home extends Component {
   state = { 

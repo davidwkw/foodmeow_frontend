@@ -75,7 +75,7 @@ class AboutCard extends Component {
                 <h4> {this.state.display_address} </h4>
             </FirstColumn>
             <SecondColumn>
-                <img src={mapplaceholder} />
+                <img src={mapplaceholder} alt="map" />
             </SecondColumn>
             </Card>
          );
