@@ -24,6 +24,8 @@ const BannerImage = styled.img`
   
 const Inline = styled.div`
     display: inline-block;
+    // display: flex;
+    // justify-content: center;
     width: 100%;
     padding-left: 80px;
 
@@ -65,6 +67,9 @@ const InsideTab = styled.div`
     padding: 40px 80px 80px 80px;
     height: max-content;
 `
+const ReviewTab = styled.div`
+    height: max-content;
+`
 
 class RestaurantShowPage extends Component {
     constructor(props){
@@ -102,7 +107,6 @@ class RestaurantShowPage extends Component {
                 categories: biz.data.categories,
                 isClosed: biz.data.is_closed,
                 reviews: reviews.data.reviews
-
             })
         } catch(e) {
             console.log(e)
@@ -127,7 +131,6 @@ class RestaurantShowPage extends Component {
                             : <p>No categories available</p>
                         }
                     </h4>
-                    <h4>{this.state.id}</h4>
                     <Star number={rating} />
                 </Inline>
                     <hr />
@@ -146,9 +149,9 @@ class RestaurantShowPage extends Component {
                         </InsideTab>
                     </Tab>
                     <Tab label="Reviews" value="b">
-                        <InsideTab>
+                        <ReviewTab>
                             <ReviewCard reviews={this.state.reviews} />
-                        </InsideTab>
+                        </ReviewTab>
                     </Tab>
                 </Tabs>
                 </MuiThemeProvider>

@@ -6,7 +6,7 @@ import Star from './stars';
 const Card = styled.div`
     display: flex;
     // margin: 50px;
-    padding: 0 100px 50px 100px;
+    padding: 50px 100px 50px 100px;
     border-bottom: 2px solid #D3D3D3;
 
 >h4 {
