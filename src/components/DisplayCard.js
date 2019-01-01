@@ -6,14 +6,14 @@ import Star from './stars'
 
 
 const Card = styled.div`
-    display: inline-block;
+    display: flex;
     height: 400px;
     padding: 50px;
 `
 
 const FirstColumn = styled.div`
     padding: 20px;
-    width: 300px;
+    width: 350px;
     height: 250px;
     border-radius: 30px;
     display: inline-block;
@@ -37,18 +37,19 @@ const FirstColumn = styled.div`
     }
 `
 const SecondColumn = styled.div`
-    width: 300px;
+    width: 250px;
     height: 300px;
     border-radius: 20px;
     display: inline-block;
     position: element(#first);
-    transform: translateY(-35px);
-    margin-left: -30px;
+    transform: translateY(-25px);
+    margin-left: -25px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
     >img{
         object-fit: cover;
-        width: 250px;
-        height: 300px;
+        width: 100%;
+        height: 100%;
         border-radius: 20px;
 
     }

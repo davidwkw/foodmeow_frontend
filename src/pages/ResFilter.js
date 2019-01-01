@@ -43,7 +43,7 @@ class ResFilter extends Component {
         biz: {},
         submitted: false,
         cuisine: {},
-        radius: 5000,
+        radius: 5,
         price: [
             {id: 1, value: "1", label: "$", isChecked: false},
             {id: 2, value: "2", label: "$$",isChecked: false},
@@ -188,7 +188,7 @@ class ResFilter extends Component {
                     <ResForm id="filter-restaurant-form" onSubmit={this.handleSubmit}>
                       <p> Choose your cuisine:</p>
                       {/* Choose Cuisine */}
-                      <div style={{ width: '627px' }} >
+                      <div style={{ width: '80%' }} >
                           <MultiSelectReact 
                             className="browser-default custom-select"
                             options={this.state.multiSelect}

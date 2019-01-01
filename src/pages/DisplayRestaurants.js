@@ -3,13 +3,21 @@ import styled from 'styled-components'
 import { Redirect } from 'react-router-dom';
 
 import DisplayCard from '../components/DisplayCard';
+import background from '../background.jpg';
 
 const Display = styled.div`
-  width: 80%;
+  width: 100%;
   display: block;
   padding: 50px;
   margin-left: auto;
   margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
+const Container = styled.div`
+  background-image: url(${background});
 `
 class DisplayRestaurants extends Component {
   render() { 
@@ -20,13 +28,13 @@ class DisplayRestaurants extends Component {
       return <Redirect to='/' />
     }
     return ( 
-      <div>
-      <Display>
-        {this.props.location.state.biz.map( (biz) => (
-          <DisplayCard key={biz.id} biz={biz} />
-        ))}
-      </Display>
-      </div>
+      <Container>
+        <Display>
+          {this.props.location.state.biz.map( (biz) => (
+            <DisplayCard key={biz.id} biz={biz} />
+          ))}
+        </Display>
+      </Container>
      );
   }
 }
