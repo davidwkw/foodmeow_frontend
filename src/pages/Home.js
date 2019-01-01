@@ -11,6 +11,10 @@ class Home extends Component {
     price: '',
   }
   
+  componentWillUnmount(){
+    console.log("Home unmounted")
+  }
+
   render() {
     console.log("IN home page")
     console.log(this.props)
@@ -25,7 +29,7 @@ class Home extends Component {
           : this.props.coords
             ?   
               <div>
-                <ResFilter coords={this.props.coords} updateBiz={this.props.updateBiz} biz={this.props.biz}/>
+                <ResFilter coords={this.props.coords} />
               </div> 
             : 
               <div>Getting the location data&hellip; </div>

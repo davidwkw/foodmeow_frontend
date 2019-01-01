@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FormInline } from "mdbreact";
 import CheckBox from '../components/CheckBox';
 import styled from 'styled-components';
 import cover from '../cover.jpg';
@@ -13,6 +12,7 @@ const Layout = styled.div`
 
 const ColumnContainer = styled.div`
   display:flex;
+  height: 100vh;
 `
 const FirstColumn = styled.div`
   overflow: hidden;
@@ -28,11 +28,7 @@ const FirstColumn = styled.div`
 const SecondColumn = styled.div`
   width:55%;
   padding: 50px;
-  margin-top: 120px;
-  margin-right: 80px;
 
-  >h1 {
-  }
 `
 const ResForm = styled.form`
   margin-top: 50px;
@@ -45,6 +41,7 @@ class ResFilter extends Component {
     constructor(props) {
       super(props)
       this.state = { 
+        biz: {},
         submitted: false,
         cuisine: {},
         radius: 5000,
@@ -98,8 +95,10 @@ class ResFilter extends Component {
         console.log(res)
         this.setState({
           submitted: true,
+          biz: res.data.businesses
         })
-        this.props.updateBiz(res.data.businesses)
+        // this.props.updateBiz(res.data.businesses)
+        // this.forceUpdate()
       })
       .catch(error => {
         console.log(error)
@@ -116,7 +115,7 @@ class ResFilter extends Component {
       this.setState({radius: event.target.value});
     }
 
-    handleCheckChieldElement = (event) => {
+    handleCheckChildElement = (event) => {
       let price = this.state.price
       price.forEach(price => {
         if (price.value === event.target.value){
@@ -132,9 +131,9 @@ class ResFilter extends Component {
       e.preventDefault();
       this.fetchResData(); 
 
-      if(this.state.submitted){
-        return <Redirect to="/display" />
-      }
+      // if(this.state.submitted){
+      //   return <Redirect to="/display" />
+      // }
     }
 
     optionClicked(optionsList) {
@@ -166,8 +165,15 @@ class ResFilter extends Component {
           };
 
           if (submitted) {
-            return <Redirect to='/display' />;
+            return <Redirect to={{
+              pathname:"/display",
+              state: {
+                biz: this.state.biz
+              },
+            }} />;
+
           }
+
         return (
             <Layout>
                 <ColumnContainer>
@@ -203,7 +209,7 @@ class ResFilter extends Component {
                       <Spacing />
                       {
                           this.state.price.map((price, index) => {
-                            return (<CheckBox key={index} handleCheckChieldElement={this.handleCheckChieldElement} {...price} />)
+                            return (<CheckBox key={index} handleCheckChildElement={this.handleCheckChildElement} {...price} />)
                           })
                       }
 

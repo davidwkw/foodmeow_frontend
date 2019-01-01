@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router';
 import styled from 'styled-components'
 
 
@@ -20,11 +21,25 @@ const Header = styled.div `
 
 
 class HeaderNav extends Component {
-    state = {  }
+    state = {
+        logoClicked: false,
+    }
+    goBackHome = () => {
+        this.setState({
+            logoClicked: true
+        })
+    }
+
     render() { 
+        if(this.state.logoClicked){
+            this.setState({
+                logoClicked: false
+            })
+            return <Redirect to="/" />
+        }
         return ( 
             <Header>
-                <h2> this is header </h2>
+                <h2 onClick={this.goBackHome}> logo </h2>
             </Header>
          );
     }

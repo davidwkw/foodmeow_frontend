@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Redirect } from 'react-router';
-import { withRouter } from 'react-router-dom';
 
 import star_1 from '../regular_1.png';
 import star_2 from '../regular_2.png';
@@ -73,7 +72,7 @@ class DisplayCard extends Component {
     }
 
     render() { 
-        const { id, name, categories, rating, image_url, review_count, coordinates, price, address } = this.props.biz
+        const { id, name, categories, rating, image_url, price } = this.props.biz
         return ( 
             <div>
                 {this.state.clicked
@@ -93,6 +92,7 @@ class DisplayCard extends Component {
                                 <span key={index}>{item.title}{'  '}</span>
                                 ))}
                             </h4>
+                            <h4>{price}</h4>
                             { rating === 5 
                                 ? <img src={star_5} /> 
                                 : rating >= 4 && rating < 5 

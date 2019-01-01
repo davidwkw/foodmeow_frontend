@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import foodplaceholder from '../foodplaceholder.jpg'
 import styled from 'styled-components'
 import {Tabs, Tab} from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'

@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Redirect } from 'react-router-dom';
 
 import DisplayCard from '../components/DisplayCard';
-import HeaderNav from '../components/Header';
 
 const Display = styled.div`
   width: 80%;
@@ -14,14 +13,16 @@ const Display = styled.div`
 `
 class DisplayRestaurants extends Component {
   render() { 
-    if(this.props.biz.length === 0){
+    console.log("In DisplayRestaurants")
+    console.log(this.props)
+    if(this.props.location.state.biz === undefined){
       console.log("redirecting...")
       return <Redirect to='/' />
     }
     return ( 
       <div>
       <Display>
-        {this.props.biz.map( (biz,index) => (
+        {this.props.location.state.biz.map( (biz,index) => (
           <DisplayCard index={index} biz={biz} />
         ))}
       </Display>
