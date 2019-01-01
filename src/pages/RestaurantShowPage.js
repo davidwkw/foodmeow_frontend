@@ -70,6 +70,7 @@ class RestaurantShowPage extends Component {
     constructor(props){
         super(props)
         this.state = { 
+            id:'',
             name: "Patsagi Kopitiam",
             review_count: 1,
             image_url: '',
@@ -85,67 +86,68 @@ class RestaurantShowPage extends Component {
     }
 
     async componentDidMount(){
-        await axios({
-            method: 'post',
-            url: `https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`,
-        })
-        .then( res => {
-            console.log(res)
+        try{
+            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`)
+            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}/reviews`)
+
             this.setState({
-                name: res.data.name,
-                review_count: res.data.review_count,
-                image_url: res.data.image_url,
-                raitng: res.data.rating,
-                coordinates: res.data.coordinates,
-                price: res.data.price,
-                display_address: res.data.location.display_address.join(", "),
-                categories: res.data.categories,
-                isClosed: res.data.is_closed
+                id: biz.data.id,
+                name: biz.data.name,
+                review_count: biz.data.review_count,
+                image_url: biz.data.image_url,
+                raitng: biz.data.rating,
+                coordinates: biz.data.coordinates,
+                price: biz.data.price,
+                display_address: biz.data.location.display_address.join(", "),
+                categories: biz.data.categories,
+                isClosed: biz.data.is_closed,
+                reviews: reviews.data.reviews
+
             })
-        }) 
-        .catch( err => {
-            console.log(err)
-        })
+        } catch(e) {
+            console.log(e)
+        }
     }
 
     render() { 
         console.log(this.state)
+        const { id, name, image_url, price, categories, rating, display_address, coordinates } = this.state
         return (
             <div>
             <FirstColumn>
-                <BannerImage src={this.state.image_url} alt="food palceholder" />
+                <BannerImage src={image_url} alt="food palceholder" />
                 <Inline>
-                    <h3> {this.state.name}</h3>
-                    <h4> {this.state.price} </h4>
+                    <h3> {name}</h3>
+                    <h4> {price} </h4>
                     <h4> 
-                        {this.state.categories[0] !== undefined
-                            ? this.state.categories.map((item, index) => (
+                        {categories[0] !== undefined
+                            ? categories.map((item, index) => (
                                 <span key={index}>{item.title}{" "}</span>
                               ))
                             : <p>No categories available</p>
                         }
                     </h4>
-                    <Star number={this.state.rating} />
+                    <h4>{this.state.id}</h4>
+                    <Star number={rating} />
                 </Inline>
                     <hr />
 
                 <MuiThemeProvider tabTemplateStyle={{backgroundColor: "white"}}>
                 <Tabs
-                    value={this.state.value}
                     onChange={this.handleChange}
                 >
                     <Tab label="About" value="a">
                         <InsideTab>
                             <AboutCard 
-                                name={this.state.name} 
-                                coordinates={this.state.coordinates}
-                                address={this.state.display_address}
+                                name={name} 
+                                coordinates={coordinates}
+                                address={display_address}
                             />
                         </InsideTab>
                     </Tab>
                     <Tab label="Reviews" value="b">
                         <InsideTab>
-                            <ReviewCard />
+                            <ReviewCard reviews={this.state.reviews} />
                         </InsideTab>
                     </Tab>
                 </Tabs>
