@@ -46,10 +46,12 @@ class HeaderNav extends Component {
             })
             return <Redirect to="/" />
         }
-        return ( 
-            <Header>
-                <h3 onClick={this.goBackHome}> Food <br/> Me! </h3>
-            </Header>
+        return (
+            <div>
+                <Header>
+                    <h3 onClick={this.goBackHome}> Food <br/> Me! </h3>
+                </Header>
+            </div>
          );
     }
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import star_1 from '../regular_1.png'
 import Star from './stars';
+import Placeholder from '../placeholder.jpg';
 
 const Card = styled.div`
     display: flex;
@@ -43,19 +43,19 @@ const SecondColumn = styled.div`
     max-height: 500px;
     padding: 20px;
 
->p {
-    font-size: 14px;
-}
->h4 {
-    display: inline-block;
-    padding-left: 30px;
-    font-size: 14px;
-    font-weight: bold;
+    >p {
+        font-size: 14px;
+    }
+    >h4 {
+        display: inline-block;
+        padding-left: 30px;
+        font-size: 14px;
+        font-weight: bold;
 
-}
->img {
-    padding-bottom: 20px;
-}
+    }
+    >img {
+        padding-bottom: 20px;
+    }
 `
 const Spacing = styled.div`
     padding-bottom: 10px;
@@ -83,7 +83,10 @@ export default class ReviewCard extends Component {
                         this.props.reviews.map(item => (
                             <Card key={item.id}>
                                 <FirstColumn>
-                                    <img src={item.user.image_url} alt="biz" />
+                                    { item.user.image_url !== null 
+                                        ? <img src={item.user.image_url} alt="review user" />
+                                        : <img src={Placeholder} alt="review user" />
+                                    }
                                     <h4> {item.user.name} </h4>
                                 </FirstColumn>
                                 <SecondColumn>

@@ -6,6 +6,7 @@ import Star from '../components/stars'
 import ReviewCard from '../components/ReviewCard';
 import AboutCard from '../components/AboutCard'
 import axios from 'axios';
+import Loading from '../components/Loading';
 
 const styles = {
     headline: {
@@ -46,7 +47,6 @@ const Inline = styled.div`
     }
 `
 const FirstColumn = styled.div`
-    float: left;
     overflow: hidden;
     max-width: 100vw;
     max-height: max-content;
@@ -75,6 +75,7 @@ class RestaurantShowPage extends Component {
     constructor(props){
         super(props)
         this.state = { 
+            loading: false,
             id:'',
             name: "Patsagi Kopitiam",
             review_count: 1,
@@ -91,6 +92,9 @@ class RestaurantShowPage extends Component {
     }
 
     async componentDidMount(){
+        this.setState({
+            loading: true
+        })
         try{
             const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`)
             const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}/reviews`)
@@ -106,7 +110,8 @@ class RestaurantShowPage extends Component {
                 display_address: biz.data.location.display_address.join(", "),
                 categories: biz.data.categories,
                 isClosed: biz.data.is_closed,
-                reviews: reviews.data.reviews
+                reviews: reviews.data.reviews,
+                loading: false
             })
         } catch(e) {
             console.log(e)
@@ -115,12 +120,21 @@ class RestaurantShowPage extends Component {
 
     render() { 
         console.log(this.state)
+        console.log(this.props.history)
         const { id, name, image_url, price, categories, rating, display_address, coordinates } = this.state
         return (
             <div>
+            { this.state.loading 
+                ? <Loading />
+                : ''
+            }
             <FirstColumn>
                 <BannerImage src={image_url} alt="food palceholder" />
                 <Inline>
+                    { this.props.history.length > 0 
+                        ? <button onClick={this.props.history.goBack}>Back</button>
+                        : ''
+                    }
                     <h3> {name}</h3>
                     <h4> {price} </h4>
                     <h4> 
