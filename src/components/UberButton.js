@@ -22,9 +22,16 @@ export default class UberButton extends Component {
         .then( res => {
           console.log("getting user credentials")
           console.log(res)
+          localStorage.setItem('uberToken', res.data.uber_user_credentials.access_token)
+          this.setState({
+            loading: false
+          })
         })
         .catch( err => {
           console.log(err)
+          this.setState({
+            loading:false
+          })
         })
       } else {
         axios({
@@ -37,8 +44,7 @@ export default class UberButton extends Component {
         .then(res => {
           console.log("In componentDidMount")
           console.log(res)
-          console.log(res.data.authentication_url)
-          // localStorage.setItem('uberToken', res.access_token)
+          console.log(res.data.authentication_url).
           this.setState({
             authURL: res.data.authentication_url,
             isSuccess: true,
@@ -65,7 +71,7 @@ export default class UberButton extends Component {
     }
     
     
-    onClick = e => {
+    callUber = e => {
       this.uberCall(localStorage.getItem("uberToken"))
       .then(res => {
         console.log("In UberCall click")
@@ -89,7 +95,10 @@ export default class UberButton extends Component {
                 </div>
               : <h1>Something went wrong. Try again.</h1>
             }
-            <button onClick={this.onClick}>Call Uber</button>
+            { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
+              ? <button onClick={this.callUber}>Call Uber</button>
+              : ''
+            }
         </div>
       )
     }
