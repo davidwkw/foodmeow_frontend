@@ -123,7 +123,8 @@ class RestaurantShowPage extends Component {
                 reviews: reviews.data.reviews,
                 loading: false
             })
-            localStorage.removeItem('bizId')
+            // localStorage.removeItem('bizId')
+            localStorage.setItem('bizId', biz.data.id)
         } catch(e) {
             console.log(e)
         }
