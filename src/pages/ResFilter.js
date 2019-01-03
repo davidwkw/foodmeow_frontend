@@ -27,7 +27,6 @@ const FirstColumn = styled.div`
 const SecondColumn = styled.div`
   width:55%;
   padding: 50px;
-
 `
 const ResForm = styled.form`
   margin-top: 50px;
@@ -38,12 +37,12 @@ const Spacing = styled.div`
 
 class ResFilter extends Component {
   state = {
-    loading: false,
+    isLoading: false,
     biz: {},
-    submitted: false,
-    cuisine: {},
+    isSubmitted: false,
+    categories: {},
     radius: 5,
-    price: [
+    prices: [
       { id: 1, value: "1", label: "$", isChecked: false },
       { id: 2, value: "2", label: "$$", isChecked: false },
       { id: 3, value: "3", label: "$$$", isChecked: false },
@@ -69,35 +68,33 @@ class ResFilter extends Component {
     selected: [],
   }
 
-
   fetchResData = (e) => {
-    console.log('fetching Data....')
     console.log(this.props)
-    // e.preventDefault()
+    e.preventDefault()
     this.setState({
-      loading: true
+      isLoading: true
     })
     axios({
-      method: 'post',
+      method: 'get',
       url: 'https://next-foodme.herokuapp.com/api/v1/businesses/search/',
       params: {
         latitude: this.props.coords.latitude,
         longitude: this.props.coords.longitude,
-        // radius: this.state.radius,
+        radius: this.state.radius * 1000,
+        // categories: this.state.categories,
         // limit: 6,
       },
-      headers: {
-        // 'Authorization': "Bearer FkCrNEYXM_yqGVn-Emn5LEx_AKEYyNVPWMCZE2YkovTnUTFfBX_ZhkOJRpBPooSPdawjfoyfoyxUegW-QIIfmcntg7PPdt_ST6GwCCo6jsouacxiQgn5ngIVHL8ZXHYx",
-        // 'Content-Type': 'application/x-www-form-urlencoded'
-      },
+      // headers: {
+      //   'Authorization': `Bearer ${this.getJWTToken()}`,
+      // },
     })
       .then(res => {
         console.log("displaying biz search results")
         console.log(res)
         this.setState({
-          submitted: true,
+          isSubmitted: true,
           biz: res.data.businesses,
-          loading: false
+          isLoading: false
         })
         // this.props.updateBiz(res.data.businesses)
         // this.forceUpdate()
@@ -106,6 +103,10 @@ class ResFilter extends Component {
         console.log(error)
       })
   }
+
+  // getJWTToken = () => {
+  //   const jwt = localStorage.getItem('jwt') ? localStorage.getItem('jwt') : {}
+  // }
 
   handleSelect = ({ target }) => {
     this.setState({
@@ -118,27 +119,16 @@ class ResFilter extends Component {
   }
 
   handleCheckChildElement = (event) => {
-    let price = this.state.price
-    price.forEach(price => {
+    const { prices } = this.state
+    prices.forEach(price => {
       if (price.value === event.target.value) {
         price.isChecked = event.target.checked
       }
     })
-    this.setState({ price: price })
+    this.setState({ prices: price })
   }
 
-
-  handleSubmit = (e) => {
-    console.log('running')
-    e.preventDefault();
-    this.fetchResData();
-
-    // if(this.state.submitted){
-    //   return <Redirect to="/display" />
-    // }
-  }
-
-  optionClicked(optionsList) {
+  optionClicked = (optionsList) => {
     console.log(
       'here the lib adds value false to the selected item',
       optionsList
@@ -146,7 +136,7 @@ class ResFilter extends Component {
     this.setState({ multiSelect: optionsList });
   }
 
-  selectedBadgeClicked(optionsList) {
+  selectedBadgeClicked = (optionsList) => {
     console.log(
       'here the lib adds value true to the selected item',
       optionsList
@@ -154,8 +144,12 @@ class ResFilter extends Component {
     this.setState({ multiSelect: optionsList });
   }
 
+  // componentDidMount = () => {
+  //   localStorage.getItem('jwt')
+  // }
+
   render() {
-    const { submitted } = this.state
+    const { isSubmitted, radius, isLoading, prices, multiSelect } = this.state
 
     const selectedOptionsStyles = {
       color: '#3c763d',
@@ -166,7 +160,7 @@ class ResFilter extends Component {
       color: '#8a6d3b',
     };
 
-    if (submitted) {
+    if (isSubmitted) {
       return <Redirect to={{
         pathname: "/display",
         state: {
@@ -178,7 +172,7 @@ class ResFilter extends Component {
 
     return (
       <Layout>
-        {this.state.loading
+        {isLoading
           ? <Loading />
           : ''
         }
@@ -192,15 +186,15 @@ class ResFilter extends Component {
             <h1> Let us pick for you.</h1>
 
 
-            <ResForm id="filter-restaurant-form" onSubmit={this.handleSubmit}>
-              <p> Choose your cuisine:</p>
-              {/* Choose Cuisine */}
+            <ResForm id="filter-restaurant-form" onSubmit={this.fetchResData}>
+              <p> Choose your categories:</p>
+              {/* Choose categories */}
               <div style={{ width: '80%' }} >
                 <MultiSelectReact
                   className="browser-default custom-select"
-                  options={this.state.multiSelect}
-                  optionClicked={this.optionClicked.bind(this)}
-                  selectedBadgeClicked={this.selectedBadgeClicked.bind(this)}
+                  options={multiSelect}
+                  optionClicked={this.optionClicked}
+                  selectedBadgeClicked={this.selectedBadgeClicked}
                   selectedOptionsStyles={selectedOptionsStyles}
                   optionsListStyles={optionsListStyles}
                 />
@@ -208,13 +202,13 @@ class ResFilter extends Component {
 
               {/* Distance Slider */}
               <Spacing />
-              <label htmlFor="customRange1">How far would you like to travel? {this.state.radius} km</label>
-              <input min="0" max="30" type="range" className="custom-range" id="distance" value={this.state.radius} onChange={this.handleDistance} />
+              <label htmlFor="customRange1">How far would you like to travel? {radius} km</label>
+              <input min="0" max="30" type="range" className="custom-range" id="distance" value={radius} onChange={this.handleDistance} />
 
               {/* Price Checkbox */}
               <Spacing />
               {
-                this.state.price.map((price, index) => {
+                prices.map((price, index) => {
                   return (<CheckBox key={index} handleCheckChildElement={this.handleCheckChildElement} {...price} />)
                 })
               }
@@ -226,7 +220,7 @@ class ResFilter extends Component {
           </SecondColumn>
         </ColumnContainer>
         }
-            </Layout>
+      </Layout>
     );
   }
 }
