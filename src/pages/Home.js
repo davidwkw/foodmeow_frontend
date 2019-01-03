@@ -7,21 +7,11 @@ import ResFilter from "../pages/ResFilter";
 
 
 class Home extends Component {
-  state = {
-    radius: 100,
-    categories: '',
-    limit: 5,
-    price: '',
-  }
-
-  // componentWillUnmount() {
-  //   console.log("Home unmounted")
-  // }
 
   render() {
     // console.log("IN home page")
-    // console.log(this.props)
-    // console.log(this.props.coords)
+    console.log(this.props)
+    console.log(this.props.coords)
     // console.log(this.props.isGeolocationAvailable)
     // console.log(this.props.isGeolocationEnabled)
     return (
@@ -40,7 +30,6 @@ class Home extends Component {
               <div>Getting the location data&hellip; </div>
             </div>
     )
-
   }
 }
 

@@ -45,6 +45,8 @@ const optionsListStyles = {
 };
 class ResFilter extends Component {
   state = {
+    currentLatitude: this.props.coords.latitude,
+    currentLongitude: this.props.coords.longitude,
     isLoading: false,
     biz: {},
     isSubmitted: false,
@@ -76,18 +78,21 @@ class ResFilter extends Component {
   }
 
   fetchResData = (e) => {
+    const { currentLatitude, currentLongitude, radius, multiSelect, prices } = this.state
     e.preventDefault()
     this.setState({
       isLoading: true
     })
-    const checkedPrice = this.state.prices.find(obj => obj.isChecked)
+    const checkedPrice = prices.find(obj => obj.isChecked)
     const params = {
-      latitude: this.props.coords.latitude,
-      longitude: this.props.coords.longitude,
-      radius: this.state.radius * 1000,
-      categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+      latitude: currentLatitude,
+      longitude: currentLongitude,
+      radius: radius * 1000,
+      categories: multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
       price: checkedPrice ? checkedPrice.value : '',
     }
+
+    console.log(params)
     axios({
       method: 'get',
       url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
@@ -154,10 +159,6 @@ class ResFilter extends Component {
       multiSelect: optionsList,
     });
   }
-
-  // componentDidMount = () => {
-  //   const jwt = localStorage.getItem('jwt')
-  // }
 
   render() {
     const { isSubmitted, radius, isLoading, prices, multiSelect, biz } = this.state
