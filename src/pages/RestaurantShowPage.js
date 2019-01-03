@@ -96,6 +96,7 @@ class RestaurantShowPage extends Component {
         this.setState({
             loading: true
         })
+        console.log(localStorage)
         try{
             let bizId = ''
             if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
