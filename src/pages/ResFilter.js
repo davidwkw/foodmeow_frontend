@@ -34,13 +34,20 @@ const ResForm = styled.form`
 const Spacing = styled.div`
   margin-top: 20px
 `
+const selectedOptionsStyles = {
+  color: '#3c763d',
+  backgroundColor: '#dff0d8',
+};
 
+const optionsListStyles = {
+  backgroundColor: '#fcf8e3',
+  color: '#8a6d3b',
+};
 class ResFilter extends Component {
   state = {
     isLoading: false,
     biz: {},
     isSubmitted: false,
-    categories: {},
     radius: 5,
     prices: [
       { id: 1, value: "1", label: "$", isChecked: false },
@@ -69,21 +76,22 @@ class ResFilter extends Component {
   }
 
   fetchResData = (e) => {
-    console.log(this.props)
     e.preventDefault()
     this.setState({
       isLoading: true
     })
+    const params = {
+      latitude: this.props.coords.latitude,
+      longitude: this.props.coords.longitude,
+      radius: this.state.radius * 1000,
+      categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+      // limit: 6,
+    }
+    console.log(params)
     axios({
       method: 'get',
-      url: 'https://next-foodme.herokuapp.com/api/v1/businesses/search/',
-      params: {
-        latitude: this.props.coords.latitude,
-        longitude: this.props.coords.longitude,
-        radius: this.state.radius * 1000,
-        // categories: this.state.categories,
-        // limit: 6,
-      },
+      url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
+      params,
       // headers: {
       //   'Authorization': `Bearer ${this.getJWTToken()}`,
       // },
@@ -101,12 +109,11 @@ class ResFilter extends Component {
       })
       .catch(error => {
         console.log(error)
+        this.setState({
+          isLoading: false
+        })
       })
   }
-
-  // getJWTToken = () => {
-  //   const jwt = localStorage.getItem('jwt') ? localStorage.getItem('jwt') : {}
-  // }
 
   handleSelect = ({ target }) => {
     this.setState({
@@ -114,18 +121,18 @@ class ResFilter extends Component {
     })
   }
 
-  handleDistance = (event) => {
-    this.setState({ radius: event.target.value });
+  handleDistance = (e) => {
+    this.setState({ radius: e.target.value });
   }
 
-  handleCheckChildElement = (event) => {
+  handleCheckChildElement = (e) => {
     const { prices } = this.state
     prices.forEach(price => {
-      if (price.value === event.target.value) {
-        price.isChecked = event.target.checked
+      if (price.value === e.target.value) {
+        price.isChecked = e.target.checked
       }
     })
-    this.setState({ prices: price })
+    this.setState({ prices: prices })
   }
 
   optionClicked = (optionsList) => {
@@ -133,41 +140,35 @@ class ResFilter extends Component {
       'here the lib adds value false to the selected item',
       optionsList
     );
-    this.setState({ multiSelect: optionsList });
+    this.setState({
+      multiSelect: optionsList,
+    });
   }
 
   selectedBadgeClicked = (optionsList) => {
     console.log(
       'here the lib adds value true to the selected item',
-      optionsList
+      optionsList,
     );
-    this.setState({ multiSelect: optionsList });
+    this.setState({
+      multiSelect: optionsList,
+    });
   }
 
   // componentDidMount = () => {
-  //   localStorage.getItem('jwt')
+  //   const jwt = localStorage.getItem('jwt')
   // }
 
   render() {
-    const { isSubmitted, radius, isLoading, prices, multiSelect } = this.state
-
-    const selectedOptionsStyles = {
-      color: '#3c763d',
-      backgroundColor: '#dff0d8',
-    };
-    const optionsListStyles = {
-      backgroundColor: '#fcf8e3',
-      color: '#8a6d3b',
-    };
+    const { isSubmitted, radius, isLoading, prices, multiSelect, biz } = this.state
 
     if (isSubmitted) {
       return <Redirect to={{
         pathname: "/display",
         state: {
-          biz: this.state.biz
+          biz: biz
         },
       }} />;
-
     }
 
     return (
