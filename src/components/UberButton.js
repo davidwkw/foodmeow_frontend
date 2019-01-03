@@ -15,7 +15,7 @@ export default class UberButton extends Component {
       })
       console.log("checking for location search")
       console.log(this.props)
-      if('location' in this.props){
+      if(window.location.href !== "https://react-foodme.herokuapp.com/restaurant"){
         axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
           uber_code_url: window.location.href,
         })
