@@ -15,6 +15,7 @@ export default class UberButton extends Component {
       })
       console.log("checking for location search")
       console.log(this.props)
+      console.log(window.location)
       if(window.location.href !== "https://react-foodme.herokuapp.com/restaurant"){
         axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
           uber_code_url: window.location.href,
@@ -52,7 +53,7 @@ export default class UberButton extends Component {
             loading: false
           })
           console.log("opening new window")
-          // window.open(res.data.authentication_url, '_self')
+          window.open(res.data.authentication_url, '_self')
           // localStorage.setItem('bizId', this.props.biz_id)
         })
         .catch( err  => {

@@ -124,6 +124,7 @@ class RestaurantShowPage extends Component {
                 loading: false
             })
             // localStorage.removeItem('bizId')
+            console.log(biz.data)
             localStorage.setItem('bizId', biz.data.id)
             localStorage.setItem('desLat', biz.data.coordinates.ltd)
             localStorage.setItem('desLng', biz.data.coordinates.lng)
