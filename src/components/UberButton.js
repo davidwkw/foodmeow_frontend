@@ -46,7 +46,7 @@ export default class UberButton extends Component {
         .then(res => {
           console.log("In componentDidMount")
           console.log(res)
-          console.log(res.data.authentication_url).
+          console.log(res.data.authentication_url)
           this.setState({
             authURL: res.data.authentication_url,
             isSuccess: true,
