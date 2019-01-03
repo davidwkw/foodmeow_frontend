@@ -45,7 +45,7 @@ export default class UberButton extends Component {
             loading: false
           })
           console.log("opening new window")
-          window.open(res.data.authentication_url, '_self')
+          // window.open(res.data.authentication_url, '_self')
           // localStorage.setItem('bizId', this.props.biz_id)
         })
         .catch( err  => {
