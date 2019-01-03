@@ -75,6 +75,8 @@ export default class UberButton extends Component {
     
     callUber = e => {
       // this.uberCall(localStorage.getItem("uberToken"))
+      console.log("in call Uber")
+      console.log(localStorage)
       const data = {
         uber_user_credentials: localStorage.getItem('uber_user_credentials'),
         request_ride: true,
