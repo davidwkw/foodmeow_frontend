@@ -98,7 +98,7 @@ class RestaurantShowPage extends Component {
         })
         try{
             let bizId = ''
-            if(localStorage.bizId === undefined){
+            if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
                 console.log("loading from props")
                 bizId = this.props.location.state.id 
             } else {

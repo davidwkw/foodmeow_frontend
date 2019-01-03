@@ -12,45 +12,55 @@ export default class UberButton extends Component {
     componentDidMount() {
       this.setState({
         loading: true,
-        uberAuthenticated: false,
       })
-      // axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
-      //   uber_code_url: window.location.href,
-      // })
 
-      axios({
-        method:'post',
-        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
-        header: {
-          'Content-Type':'application/json'
-        }
-      })
-      .then(res => {
-        console.log("In componentDidMount")
-        console.log(res)
-        console.log(res.data.authentication_url)
-        // localStorage.setItem('uberToken', res.access_token)
-        this.setState({
-          authentication_url: res.data.authentication_url,
-          isSuccess: true,
-          loading: false
+      if('location' in this.props){
+        axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
+          uber_code_url: window.location.href,
         })
-        console.log("opening new window")
-        window.open(res.data.authentication_url, '_self')
-        localStorage.setItem('bizId', this.props.biz_id)
-      })
-      .catch( err  => {
-        console.log(err)
-        this.setState({
-          isSuccess: false,
-          loading: false
+        .then( res => {
+          console.log("getting user credentials")
+          console.log(res)
         })
-      })
+        .catch( err => {
+          console.log(err)
+        })
+      } else {
+        axios({
+          method:'post',
+          url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+          header: {
+            'Content-Type':'application/json'
+          }
+        })
+        .then(res => {
+          console.log("In componentDidMount")
+          console.log(res)
+          console.log(res.data.authentication_url)
+          // localStorage.setItem('uberToken', res.access_token)
+          this.setState({
+            authURL: res.data.authentication_url,
+            isSuccess: true,
+            loading: false
+          })
+          console.log("opening new window")
+          // window.open(res.data.authentication_url, '_self')
+          // localStorage.setItem('bizId', this.props.biz_id)
+        })
+        .catch( err  => {
+          console.log(err)
+          this.setState({
+            isSuccess: false,
+            loading: false
+          })
+        })
+      }
+
     }
 
     uberCall = uberToken => {
       const data = uberToken ? {access_token: uberToken} : {}
-      return axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request', data) //JS Promise
+      return axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data) //JS Promise
     }
     
     
@@ -74,7 +84,7 @@ export default class UberButton extends Component {
               ? 
                 <div>
                   <h1>You are now connected to uber</h1>
-                  <a href={this.state.authentication_url}>Continue</a>
+                  <a href={this.state.authURL}>Continue</a>
                 </div>
               : <h1>Something went wrong. Try again.</h1>
             }
