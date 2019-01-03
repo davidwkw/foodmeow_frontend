@@ -26,7 +26,8 @@ export default class UberButton extends Component {
           localStorage.setItem('uberToken', res.data.uber_user_credentials.access_token)
           localStorage.setItem('uber_user_credentials', res.data.uber_user_credentials)
           this.setState({
-            loading: false
+            loading: false,
+            credentials: res.data.uber_user_credentials,
           })
         })
         .catch( err => {
@@ -78,7 +79,7 @@ export default class UberButton extends Component {
       console.log("in call Uber")
       console.log(localStorage)
       const data = {
-        uber_user_credentials: localStorage.getItem('uber_user_credentials'),
+        uber_user_credentials: this.state.crendentials,
         request_ride: true,
         get_estimate: true,
         display_products: true,
