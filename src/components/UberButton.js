@@ -85,7 +85,7 @@ export default class UberButton extends Component {
           access_token: localStorage.getItem('uberToken'),
           refresh_token: localStorage.getItem('refreshToken'),
           expire_in_seconds: localStorage.getItem('expire'),
-          scope: localStorage.setItem('scope')
+          scope: localStorage.getItem('scope')
         },
         request_ride: true,
         get_estimate: true,
