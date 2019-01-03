@@ -24,7 +24,9 @@ export default class UberButton extends Component {
           console.log("getting user credentials")
           console.log(res)
           localStorage.setItem('uberToken', res.data.uber_user_credentials.access_token)
-          localStorage.setItem('uber_user_credentials', res.data.uber_user_credentials)
+          localStorage.setItem('expire', res.data.uber_user_credentials.expire_in_seconds)
+          localStorage.setItem('refreshToken', res.data.uber_user_credentials.refresh_token)
+          localStorage.setItem('scope', res.data.uber_user_credentials.scope)
           this.setState({
             loading: false,
             credentials: res.data.uber_user_credentials,
@@ -79,7 +81,12 @@ export default class UberButton extends Component {
       console.log("in call Uber")
       console.log(localStorage)
       const data = {
-        uber_user_credentials: this.state.crendentials,
+        uber_user_credentials:{
+          access_token: localStorage.getItem('uberToken'),
+          refresh_token: localStorage.getItem('refreshToken'),
+          expire_in_seconds: localStorage.getItem('expire'),
+          scope: localStorage.setItem('scope')
+        },
         request_ride: true,
         get_estimate: true,
         display_products: true,
