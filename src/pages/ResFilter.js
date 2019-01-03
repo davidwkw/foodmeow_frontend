@@ -50,10 +50,10 @@ class ResFilter extends Component {
     isSubmitted: false,
     radius: 5,
     prices: [
-      { id: 1, value: "1", label: "$", isChecked: false },
-      { id: 2, value: "2", label: "$$", isChecked: false },
-      { id: 3, value: "3", label: "$$$", isChecked: false },
-      { id: 4, value: "4", label: "$$$$", isChecked: false }
+      { id: 1, value: 1, label: "$", isChecked: false },
+      { id: 2, value: 2, label: "$$", isChecked: false },
+      { id: 3, value: 3, label: "$$$", isChecked: false },
+      { id: 4, value: 4, label: "$$$$", isChecked: false }
     ],
     multiSelect: [{ label: 'Chinese', value: true },
     { label: 'Malaysian' },
@@ -80,14 +80,14 @@ class ResFilter extends Component {
     this.setState({
       isLoading: true
     })
+    const checkedPrice = this.state.prices.find(obj => obj.isChecked)
     const params = {
       latitude: this.props.coords.latitude,
       longitude: this.props.coords.longitude,
       radius: this.state.radius * 1000,
       categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
-      // limit: 6,
+      price: checkedPrice ? checkedPrice.value : '',
     }
-    console.log(params)
     axios({
       method: 'get',
       url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
@@ -127,12 +127,12 @@ class ResFilter extends Component {
 
   handleCheckChildElement = (e) => {
     const { prices } = this.state
-    prices.forEach(price => {
-      if (price.value === e.target.value) {
-        price.isChecked = e.target.checked
-      }
+    this.setState({
+      prices: prices.map(p => ({
+        ...p,
+        isChecked: p.value == e.target.value
+      }))
     })
-    this.setState({ prices: prices })
   }
 
   optionClicked = (optionsList) => {
