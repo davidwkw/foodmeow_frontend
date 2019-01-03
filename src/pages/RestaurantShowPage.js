@@ -7,6 +7,7 @@ import ReviewCard from '../components/ReviewCard';
 import AboutCard from '../components/AboutCard'
 import axios from 'axios';
 import Loading from '../components/Loading';
+import UberButton from '../components/UberButton';
 
 const styles = {
     headline: {
@@ -170,6 +171,7 @@ class RestaurantShowPage extends Component {
                 </Tabs>
                 </MuiThemeProvider>
             </FirstColumn>
+            <UberButton />
           </div>
           );
     }
