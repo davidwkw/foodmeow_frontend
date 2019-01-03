@@ -23,6 +23,7 @@ export default class UberButton extends Component {
           console.log("getting user credentials")
           console.log(res)
           localStorage.setItem('uberToken', res.data.uber_user_credentials.access_token)
+          localStorage.setItem('uber_user_credentials', res.data.uber_user_credentials)
           this.setState({
             loading: false
           })
@@ -72,7 +73,21 @@ export default class UberButton extends Component {
     
     
     callUber = e => {
-      this.uberCall(localStorage.getItem("uberToken"))
+      // this.uberCall(localStorage.getItem("uberToken"))
+      const data = {
+        uber_user_credentials: localStorage.getItem('uber_user_credentials'),
+        request_ride: true,
+        get_estimate: true,
+        display_products: true,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+        destination_latitude: localStorage.getItem('desLat'),
+        destination_longitude: localStorage.getItem('desLng'),
+        passenger_amt: 2
+      }
+      console.log("checking ride request payload")
+      console.log(data)
+      axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data)
       .then(res => {
         console.log("In UberCall click")
         console.log(res)

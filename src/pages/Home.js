@@ -13,10 +13,6 @@ class Home extends Component {
     limit: 5,
     price: '',
   }
-  
-  componentWillUnmount(){
-    console.log("Home unmounted")
-  }
 
   render() {
     console.log("IN home page")

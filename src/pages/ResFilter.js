@@ -79,12 +79,16 @@ class ResFilter extends Component {
       this.setState({
         loading: true
       })
+      localStorage.setItem('curLat', 6.91832755)
+      localStorage.setItem('curLng', 79.86837856727331)
       axios({
         method: 'post',
         url: 'https://next-foodme.herokuapp.com/api/v1/businesses/search/',
         params: {
-          latitude: this.props.coords.latitude,
-          longitude: this.props.coords.longitude,
+          // latitude: this.props.coords.latitude,
+          // longitude: this.props.coords.longitude,
+          latitude: 6.91832755,
+          longitude: 79.86837856727331
           // radius: this.state.radius,
           // limit: 6,
         },
