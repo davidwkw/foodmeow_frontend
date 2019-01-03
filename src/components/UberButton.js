@@ -28,12 +28,16 @@ export default class UberButton extends Component {
       .then(res => {
         console.log("In componentDidMount")
         console.log(res)
+        console.log(res.data.authentication_url)
         // localStorage.setItem('uberToken', res.access_token)
         this.setState({
           authentication_url: res.data.authentication_url,
           isSuccess: true,
           loading: false
         })
+        console.log("opening new window")
+        window.open(res.data.authentication_url, '_self')
+        localStorage.setItem('bizId', this.props.biz_id)
       })
       .catch( err  => {
         console.log(err)

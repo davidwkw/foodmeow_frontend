@@ -97,8 +97,16 @@ class RestaurantShowPage extends Component {
             loading: true
         })
         try{
-            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`)
-            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}/reviews`)
+            let bizId = ''
+            if(localStorage.bizId === undefined){
+                console.log("loading from props")
+                bizId = this.props.location.state.id 
+            } else {
+                console.log("loading from localStorage")
+                bizId = localStorage.getItem('bizId')
+            }
+            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}`)
+            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}/reviews`)
 
             this.setState({
                 id: biz.data.id,
@@ -114,6 +122,7 @@ class RestaurantShowPage extends Component {
                 reviews: reviews.data.reviews,
                 loading: false
             })
+            localStorage.removeItem('bizId')
         } catch(e) {
             console.log(e)
         }
@@ -171,7 +180,7 @@ class RestaurantShowPage extends Component {
                 </Tabs>
                 </MuiThemeProvider>
             </FirstColumn>
-            <UberButton />
+            <UberButton bizId={this.state.id}/>
           </div>
           );
     }
