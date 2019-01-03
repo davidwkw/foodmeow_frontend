@@ -13,7 +13,8 @@ export default class UberButton extends Component {
       this.setState({
         loading: true,
       })
-
+      console.log("checking for location search")
+      console.log(this.props)
       if('location' in this.props){
         axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
           uber_code_url: window.location.href,
@@ -44,7 +45,7 @@ export default class UberButton extends Component {
             loading: false
           })
           console.log("opening new window")
-          // window.open(res.data.authentication_url, '_self')
+          window.open(res.data.authentication_url, '_self')
           // localStorage.setItem('bizId', this.props.biz_id)
         })
         .catch( err  => {
