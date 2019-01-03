@@ -87,8 +87,8 @@ class ResFilter extends Component {
         params: {
           // latitude: this.props.coords.latitude,
           // longitude: this.props.coords.longitude,
-          latitude: 6.91832755,
-          longitude: 79.86837856727331
+          latitude: 37.4429964,
+          longitude: -122.1545229,
           // radius: this.state.radius,
           // limit: 6,
         },
