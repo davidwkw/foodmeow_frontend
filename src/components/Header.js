@@ -75,31 +75,7 @@ class HeaderNav extends Component {
         })
         const curDate = new Date()
         const tokenExpire = localStorage.tokenExpire ? new Date(localStorage.getItem('tokenExpire')) : new Date()
-        if (!localStorage.uberToken || curDate > tokenExpire ){
-            localStorage.clear()
-            axios({
-                method:'post',
-                url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
-                header: {
-                    'Content-Type':'application/json'
-                }
-            })
-            .then(res => {
-                console.log(res)
-                this.setState({
-                    isSuccess: true,
-                    loading: false,
-                    authURL: res.data.authentication_url
-                })
-            })
-            .catch( err  => {
-                console.log('ERROR: ', err)
-                this.setState({
-                    isSuccess: false,
-                    loading: false
-                })
-            })
-        } else if (window.location.href.includes('code')){
+        if (window.location.href.includes('code')){
             axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
                 uber_code_url: window.location.href,
             })
@@ -122,6 +98,30 @@ class HeaderNav extends Component {
                 console.log(err)
                 this.setState({
                     loading:false
+                })
+            })
+        } else if (!localStorage.uberToken || curDate > tokenExpire ){
+            localStorage.clear()
+            axios({
+                method:'post',
+                url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+                header: {
+                    'Content-Type':'application/json'
+                }
+            })
+            .then(res => {
+                console.log(res)
+                this.setState({
+                    isSuccess: true,
+                    loading: false,
+                    authURL: res.data.authentication_url
+                })
+            })
+            .catch( err  => {
+                console.log('ERROR: ', err)
+                this.setState({
+                    isSuccess: false,
+                    loading: false
                 })
             })
         } else {
