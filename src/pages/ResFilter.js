@@ -95,7 +95,8 @@ class ResFilter extends Component {
     console.log(params)
     axios({
       method: 'get',
-      url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
+      url: 'http://localhost:8000/api/v1/businesses/search/',
+      // url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
       params,
       // headers: {
       //   'Authorization': `Bearer ${this.getJWTToken()}`,
