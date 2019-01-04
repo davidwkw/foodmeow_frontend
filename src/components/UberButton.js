@@ -47,8 +47,13 @@ export default class UberButton extends Component {
         current_longitude: localStorage.getItem('curLng'),
       }
 
-      const product = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+      console.log("product request")
+      console.log(data1)
 
+
+      const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+
+      
       const data2 = {
         uber_user_credentials: credentials,
         display_products: true,
@@ -60,8 +65,11 @@ export default class UberButton extends Component {
         passenger_amt: 2,
         product_id: product[0].product_id
       }
-
-      const fare = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data2)
+      
+      console.log("product request")
+      console.log(data2)
+      
+      const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
 
       const data3 = {
         uber_user_credentials: credentials,
@@ -77,9 +85,12 @@ export default class UberButton extends Component {
         passenger_amt: 2
       }
 
-      const ride = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data3)
-
       console.log("getting ride request")
+      console.log(data3)
+
+      const ride = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data3)
+
+      
       console.log(ride)
       // console.log("checking ride request payload")
       // console.log(data)
