@@ -79,7 +79,7 @@ export default class UberButton extends Component {
 
       const ride = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data3)
 
-      console.log("getting ride result")
+      console.log("getting ride request")
       console.log(ride)
       // console.log("checking ride request payload")
       // console.log(data)
