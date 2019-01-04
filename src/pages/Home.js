@@ -33,6 +33,7 @@ const Img = styled.img`
 
 
 class Home extends Component {
+
   state = {
     radius: 100,
     categories: '',
@@ -47,8 +48,8 @@ class Home extends Component {
 
   render() {
     // console.log("IN home page")
-    // console.log(this.props)
-    // console.log(this.props.coords)
+    console.log(this.props)
+    console.log(this.props.coords)
     // console.log(this.props.isGeolocationAvailable)
     // console.log(this.props.isGeolocationEnabled)
     return (
@@ -79,7 +80,6 @@ class Home extends Component {
         }
       </div>
     )
-
   }
 }
 

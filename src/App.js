@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Route, Switch} from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import Home from './pages/Home';
 import RestaurantShowPage from './pages/RestaurantShowPage';
 import DisplayRestaurants from './pages/DisplayRestaurants';
 import HeaderNav from './components/Header';
 import MapEx from './components/maps'
 
-
-
-
-class App extends Component { 
+class App extends Component {
   render() {
     console.log("Checking root state")
     console.log(this.state)

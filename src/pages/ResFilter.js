@@ -45,6 +45,8 @@ const optionsListStyles = {
 };
 class ResFilter extends Component {
   state = {
+    currentLatitude: this.props.coords.latitude,
+    currentLongitude: this.props.coords.longitude,
     isLoading: false,
     biz: {},
     isSubmitted: false,
@@ -76,20 +78,21 @@ class ResFilter extends Component {
   }
 
   fetchResData = (e) => {
+      const { currentLatitude, currentLongitude, radius, multiSelect, prices } = this.state
       e.preventDefault()
       this.setState({
         isLoading: true
       })
-      localStorage.setItem('curLat', 6.91832755)
-      localStorage.setItem('curLng', 79.86837856727331)
-      const checkedPrice = this.state.prices.find(obj => obj.isChecked)
+      localStorage.setItem('curLat', 37.4429964 )
+      localStorage.setItem('curLng', -122.1545229)
+      const checkedPrice = prices.find(obj => obj.isChecked)
       const params = {
         latitude: 37.4429964,
         longitude: -122.1545229,
         // latitude: this.props.coords.latitude,
         // longitude: this.props.coords.longitude,
-        radius: this.state.radius * 1000,
-        categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+        radius: radius * 1000,
+        categories: multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
         price: checkedPrice ? checkedPrice.value : '',
       }
       axios({
@@ -158,10 +161,6 @@ class ResFilter extends Component {
       multiSelect: optionsList,
     });
   }
-
-  // componentDidMount = () => {
-  //   const jwt = localStorage.getItem('jwt')
-  // }
 
   render() {
     const { isSubmitted, radius, isLoading, prices, multiSelect, biz } = this.state
