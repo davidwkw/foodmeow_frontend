@@ -3,6 +3,26 @@ import React, {Component} from 'react';
 import Loading from './Loading';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const UberContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+`
+
+const Uber = styled.button`
+  display: inline-block;
+  margin: auto;
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 75%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+`
+
 
 export default class UberButton extends Component {
     state = {
@@ -16,7 +36,7 @@ export default class UberButton extends Component {
       console.log("checking for location search")
       console.log(this.props)
       console.log(window.location)
-      if(window.location.href !== "https://react-foodme.herokuapp.com/restaurant"){
+      if(window.location.href !== "https://react-foodme.herokuapp.com/restaurant" || window.location.href !== "http://localhost:3000/restaurant"){
         axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
           uber_code_url: window.location.href,
         })
@@ -38,35 +58,7 @@ export default class UberButton extends Component {
             loading:false
           })
         })
-      } else {
-        axios({
-          method:'post',
-          url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
-          header: {
-            'Content-Type':'application/json'
-          }
-        })
-        .then(res => {
-          console.log("In componentDidMount")
-          console.log(res)
-          console.log(res.data.authentication_url)
-          this.setState({
-            authURL: res.data.authentication_url,
-            isSuccess: true,
-            loading: false
-          })
-          console.log("opening new window")
-          window.open(res.data.authURL, '_self')
-          // localStorage.setItem('bizId', this.props.biz_id)
-        })
-        .catch( err  => {
-          console.log(err)
-          this.setState({
-            isSuccess: false,
-            loading: false
-          })
-        })
-      }
+      } 
 
     }
 
@@ -122,7 +114,7 @@ export default class UberButton extends Component {
               : <h1>Something went wrong. Try again.</h1>
             }
             { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
-              ? <button onClick={this.callUber}>Call Uber</button>
+              ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer>
               : ''
             }
         </div>

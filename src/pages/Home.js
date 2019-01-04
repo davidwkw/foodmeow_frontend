@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Loading from "../components/Loading";
 import ResFilter from "../pages/ResFilter";
+import axios from 'axios';
 
 
 class Home extends Component {
@@ -12,6 +13,11 @@ class Home extends Component {
     categories: '',
     limit: 5,
     price: '',
+    loading: false,
+  }
+
+  componentDidMount(){
+    localStorage.clear()
   }
 
   render() {
@@ -21,20 +27,27 @@ class Home extends Component {
     console.log(this.props.isGeolocationAvailable)
     console.log(this.props.isGeolocationEnabled)
     return (
-      !this.props.isGeolocationAvailable
-        ? <div>Your browser does not support Geolocation</div>
-        : !this.props.isGeolocationEnabled
-          ? <div>Geolocation is not enabled</div>
-          : this.props.coords
-            ?   
-              <div>
-                <ResFilter coords={this.props.coords} />
-              </div> 
-            : 
-              <div>
-                <Loading/>
-                <div>Getting the location data&hellip; </div>
-              </div>
+      <div>
+        { this.state.loading 
+          ? 
+            <Loading />
+          : 
+            !this.props.isGeolocationAvailable
+              ? <div>Your browser does not support Geolocation</div>
+              : !this.props.isGeolocationEnabled
+                ? <div>Geolocation is not enabled</div>
+                : this.props.coords
+                  ?   
+                    <div>
+                      <ResFilter coords={this.props.coords} />
+                    </div> 
+                  : 
+                    <div>
+                      <Loading/>
+                    </div>
+        
+        }
+      </div>
     )
     
   }
