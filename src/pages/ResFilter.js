@@ -27,7 +27,6 @@ const FirstColumn = styled.div`
 const SecondColumn = styled.div`
   width:55%;
   padding: 50px;
-
 `
 const ResForm = styled.form`
   margin-top: 50px;
@@ -35,19 +34,28 @@ const ResForm = styled.form`
 const Spacing = styled.div`
   margin-top: 20px
 `
+const selectedOptionsStyles = {
+  color: '#3c763d',
+  backgroundColor: '#dff0d8',
+};
 
+const optionsListStyles = {
+  backgroundColor: '#fcf8e3',
+  color: '#8a6d3b',
+};
 class ResFilter extends Component {
   state = {
-    loading: false,
+    currentLatitude: this.props.coords.latitude,
+    currentLongitude: this.props.coords.longitude,
+    isLoading: false,
     biz: {},
-    submitted: false,
-    cuisine: {},
+    isSubmitted: false,
     radius: 5,
-    price: [
-      { id: 1, value: "1", label: "$", isChecked: false },
-      { id: 2, value: "2", label: "$$", isChecked: false },
-      { id: 3, value: "3", label: "$$$", isChecked: false },
-      { id: 4, value: "4", label: "$$$$", isChecked: false }
+    prices: [
+      { id: 1, value: 1, label: "$", isChecked: false },
+      { id: 2, value: 2, label: "$$", isChecked: false },
+      { id: 3, value: 3, label: "$$$", isChecked: false },
+      { id: 4, value: 4, label: "$$$$", isChecked: false }
     ],
     multiSelect: [{ label: 'Chinese', value: true },
     { label: 'Malaysian' },
@@ -69,41 +77,48 @@ class ResFilter extends Component {
     selected: [],
   }
 
-
   fetchResData = (e) => {
-    console.log('fetching Data....')
-    console.log(this.props)
-    // e.preventDefault()
-    this.setState({
-      loading: true
-    })
-    axios({
-      method: 'post',
-      url: 'https://next-foodme.herokuapp.com/api/v1/businesses/search/',
-      params: {
-        latitude: this.props.coords.latitude,
-        longitude: this.props.coords.longitude,
-        // radius: this.state.radius,
-        // limit: 6,
-      },
-      headers: {
-        // 'Authorization': "Bearer FkCrNEYXM_yqGVn-Emn5LEx_AKEYyNVPWMCZE2YkovTnUTFfBX_ZhkOJRpBPooSPdawjfoyfoyxUegW-QIIfmcntg7PPdt_ST6GwCCo6jsouacxiQgn5ngIVHL8ZXHYx",
-        // 'Content-Type': 'application/x-www-form-urlencoded'
-      },
-    })
+      const { currentLatitude, currentLongitude, radius, multiSelect, prices } = this.state
+      e.preventDefault()
+      this.setState({
+        isLoading: true
+      })
+      localStorage.setItem('curLat', 37.4429964 )
+      localStorage.setItem('curLng', -122.1545229)
+      const checkedPrice = prices.find(obj => obj.isChecked)
+      const params = {
+        latitude: 37.4429964,
+        longitude: -122.1545229,
+        // latitude: this.props.coords.latitude,
+        // longitude: this.props.coords.longitude,
+        radius: radius * 1000,
+        categories: multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+        price: checkedPrice ? checkedPrice.value : '',
+      }
+      axios({
+        method: 'get',
+        url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
+        params,
+        // headers: {
+        //   'Authorization': `Bearer ${this.getJWTToken()}`,
+        // },
+      })
       .then(res => {
         console.log("displaying biz search results")
         console.log(res)
         this.setState({
-          submitted: true,
+          isSubmitted: true,
           biz: res.data.businesses,
-          loading: false
+          isLoading: false
         })
         // this.props.updateBiz(res.data.businesses)
         // this.forceUpdate()
       })
       .catch(error => {
         console.log(error)
+        this.setState({
+          isLoading: false
+        })
       })
   }
 
@@ -113,72 +128,55 @@ class ResFilter extends Component {
     })
   }
 
-  handleDistance = (event) => {
-    this.setState({ radius: event.target.value });
+  handleDistance = (e) => {
+    this.setState({ radius: e.target.value });
   }
 
-  handleCheckChildElement = (event) => {
-    let price = this.state.price
-    price.forEach(price => {
-      if (price.value === event.target.value) {
-        price.isChecked = event.target.checked
-      }
+  handleCheckChildElement = (e) => {
+    const { prices } = this.state
+    this.setState({
+      prices: prices.map(p => ({
+        ...p,
+        isChecked: p.value == e.target.value
+      }))
     })
-    this.setState({ price: price })
   }
 
-
-  handleSubmit = (e) => {
-    console.log('running')
-    e.preventDefault();
-    this.fetchResData();
-
-    // if(this.state.submitted){
-    //   return <Redirect to="/display" />
-    // }
-  }
-
-  optionClicked(optionsList) {
+  optionClicked = (optionsList) => {
     console.log(
       'here the lib adds value false to the selected item',
       optionsList
     );
-    this.setState({ multiSelect: optionsList });
+    this.setState({
+      multiSelect: optionsList,
+    });
   }
 
-  selectedBadgeClicked(optionsList) {
+  selectedBadgeClicked = (optionsList) => {
     console.log(
       'here the lib adds value true to the selected item',
-      optionsList
+      optionsList,
     );
-    this.setState({ multiSelect: optionsList });
+    this.setState({
+      multiSelect: optionsList,
+    });
   }
 
   render() {
-    const { submitted } = this.state
+    const { isSubmitted, radius, isLoading, prices, multiSelect, biz } = this.state
 
-    const selectedOptionsStyles = {
-      color: '#3c763d',
-      backgroundColor: '#dff0d8',
-    };
-    const optionsListStyles = {
-      backgroundColor: '#fcf8e3',
-      color: '#8a6d3b',
-    };
-
-    if (submitted) {
+    if (isSubmitted) {
       return <Redirect to={{
         pathname: "/display",
         state: {
-          biz: this.state.biz
+          biz: biz
         },
       }} />;
-
     }
 
     return (
       <Layout>
-        {this.state.loading
+        {isLoading
           ? <Loading />
           : ''
         }
@@ -192,15 +190,15 @@ class ResFilter extends Component {
             <h1> Let us pick for you.</h1>
 
 
-            <ResForm id="filter-restaurant-form" onSubmit={this.handleSubmit}>
-              <p> Choose your cuisine:</p>
-              {/* Choose Cuisine */}
+            <ResForm id="filter-restaurant-form" onSubmit={this.fetchResData}>
+              <p> Choose your categories:</p>
+              {/* Choose categories */}
               <div style={{ width: '80%' }} >
                 <MultiSelectReact
                   className="browser-default custom-select"
-                  options={this.state.multiSelect}
-                  optionClicked={this.optionClicked.bind(this)}
-                  selectedBadgeClicked={this.selectedBadgeClicked.bind(this)}
+                  options={multiSelect}
+                  optionClicked={this.optionClicked}
+                  selectedBadgeClicked={this.selectedBadgeClicked}
                   selectedOptionsStyles={selectedOptionsStyles}
                   optionsListStyles={optionsListStyles}
                 />
@@ -208,13 +206,13 @@ class ResFilter extends Component {
 
               {/* Distance Slider */}
               <Spacing />
-              <label htmlFor="customRange1">How far would you like to travel? {this.state.radius} km</label>
-              <input min="0" max="30" type="range" className="custom-range" id="distance" value={this.state.radius} onChange={this.handleDistance} />
+              <label htmlFor="customRange1">How far would you like to travel? {radius} km</label>
+              <input min="0" max="30" type="range" className="custom-range" id="distance" value={radius} onChange={this.handleDistance} />
 
               {/* Price Checkbox */}
               <Spacing />
               {
-                this.state.price.map((price, index) => {
+                prices.map((price, index) => {
                   return (<CheckBox key={index} handleCheckChildElement={this.handleCheckChildElement} {...price} />)
                 })
               }
@@ -226,7 +224,7 @@ class ResFilter extends Component {
           </SecondColumn>
         </ColumnContainer>
         }
-            </Layout>
+      </Layout>
     );
   }
 }

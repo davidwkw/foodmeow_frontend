@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
-import {Tabs, Tab} from 'material-ui/Tabs';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Star from '../components/stars'
 import ReviewCard from '../components/ReviewCard';
@@ -11,19 +11,18 @@ import UberButton from '../components/UberButton';
 
 const styles = {
     headline: {
-      fontSize: 24,
-      paddingTop: 16,
-      marginBottom: 12,
-      fontWeight: 400,
- 
+        fontSize: 24,
+        paddingTop: 16,
+        marginBottom: 12,
+        fontWeight: 400,
     },
-  };
-  
+};
+
 const BannerImage = styled.img`
     width: 100%;
     min-height: 500px ;
 `
-  
+
 const Inline = styled.div`
     display: inline-block;
     // display: flex;
@@ -73,32 +72,31 @@ const ReviewTab = styled.div`
 `
 
 class RestaurantShowPage extends Component {
-    constructor(props){
-        super(props)
-        this.state = { 
-            loading: false,
-            id:'',
-            name: "Patsagi Kopitiam",
-            review_count: 1,
-            image_url: '',
-            rating: 4,
-            coordinates: {
-                latitude: 3.13512959892834,
-                longitude: 101.629923507571
-            },
-            price: '$',
-            display_address: '',
-            categories: {}
-        }
+    state = {
+        loading: false,
+        coordinates: {
+            latitude: 3.13512959892834,
+            longitude: 101.629923507571
+        },
+        categories: {}
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         this.setState({
             loading: true
         })
+       
         try{
-            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`)
-            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}/reviews`)
+            let bizId = ''
+            if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
+                console.log("loading from props")
+                bizId = this.props.location.state.id 
+            } else {
+                console.log("loading from localStorage")
+                bizId = localStorage.getItem('bizId')
+            }
+            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}`)
+            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}/reviews`)
 
             this.setState({
                 id: biz.data.id,
@@ -114,71 +112,72 @@ class RestaurantShowPage extends Component {
                 reviews: reviews.data.reviews,
                 loading: false
             })
+            // localStorage.removeItem('bizId')
+            console.log(biz.data)
+            localStorage.setItem('bizId', biz.data.id)
+            localStorage.setItem('desLat', biz.data.coordinates.latitude)
+            localStorage.setItem('desLng', biz.data.coordinates.longitude)
+            console.log(localStorage)
         } catch(e) {
             console.log(e)
         }
     }
 
-    render() { 
-        console.log(this.state)
+    render() {
         console.log(this.props.history)
         const { id, name, image_url, price, categories, rating, display_address, coordinates } = this.state
         return (
             <div>
-            { this.state.loading 
-                ? <Loading />
-                : ''
-            }
-            <FirstColumn>
-                <BannerImage src={image_url} alt="food palceholder" />
-                <Inline>
-                    { this.props.history.length > 0 
-                        ? <button onClick={this.props.history.goBack}>Back</button>
-                        : ''
-                    }
-                    <h3> {name}</h3>
-                    <h4> {price} </h4>
-                    <h4> 
-                        {categories[0] !== undefined
-                            ? categories.map((item, index) => (
-                                <span key={index}>{item.title}{" "}</span>
-                              ))
-                            : <p>No categories available</p>
-                        }
-                    </h4>
-                    <Star number={rating} />
-                </Inline>
-                    <hr />
-
-                <MuiThemeProvider tabTemplateStyle={{backgroundColor: "white"}}>
-                <Tabs
-                    onChange={this.handleChange}
-                >
-                    <Tab label="About" value="a">
-                        <InsideTab>
-                            <AboutCard 
-                                name={name} 
-                                coordinates={coordinates}
-                                address={display_address}
-                            />
-                        </InsideTab>
-                    </Tab>
-                    <Tab label="Reviews" value="b">
-                        <ReviewTab>
-                            <ReviewCard reviews={this.state.reviews} />
-                        </ReviewTab>
-                    </Tab>
-                </Tabs>
-                </MuiThemeProvider>
-            </FirstColumn>
-            <UberButton />
+                {this.state.loading
+                    ? <Loading />
+                    :
+                    <div>
+                        <FirstColumn>
+                            <BannerImage src={image_url} alt="food placeholder" />
+                            <Inline>
+                                {this.props.history.length > 0
+                                    ? <button onClick={this.props.history.goBack}>Back</button>
+                                    : ''
+                                }
+                                <h3> {name}</h3>
+                                <h4> {price} </h4>
+                                <h4>
+                                    {categories[0] !== undefined
+                                        ? categories.map((item, index) => (
+                                            <span key={index}>{item.title}{" "}</span>
+                                        ))
+                                        : <p>No categories available</p>
+                                    }
+                                </h4>
+                                <Star number={rating} />
+                            </Inline>
+                            <hr />
+                            <MuiThemeProvider tabTemplateStyle={{ backgroundColor: "white" }}>
+                                <Tabs
+                                    onChange={this.handleChange}
+                                >
+                                    <Tab label="About" value="a">
+                                        <InsideTab>
+                                            <AboutCard
+                                                name={name}
+                                                coordinates={coordinates}
+                                                address={display_address}
+                                            />
+                                        </InsideTab>
+                                    </Tab>
+                                    <Tab label="Reviews" value="b">
+                                        <ReviewTab>
+                                            <ReviewCard reviews={this.state.reviews} />
+                                        </ReviewTab>
+                                    </Tab>
+                                </Tabs>
+                            </MuiThemeProvider>
+                        </FirstColumn>
+                       <UberButton bizId={this.state.id}/>
+                    </div>
           </div>
           );
     }
 }
- 
+
 export default RestaurantShowPage;
-
-
-
-
