@@ -42,17 +42,17 @@ export default class UberButton extends Component {
       console.log("in call Uber")
       console.log(localStorage)
       const credentials = {
-          access_token: localStorage.getItem('uberToken'),
-          refresh_token: localStorage.getItem('refreshToken'),
-          expire_in_seconds: localStorage.getItem('expires'),
-          scope: localStorage.getItem('scopes')
+          "access_token": localStorage.getItem('uberToken'),
+          "refresh_token": localStorage.getItem('refreshToken'),
+          "expire_in_seconds": localStorage.getItem('expires'),
+          "scope": localStorage.getItem('scopes')
       }
 
       const data1 = {
-        uber_user_credentials: credentials,
-        display_products: true,
-        current_latitude: localStorage.getItem('curLat'),
-        current_longitude: localStorage.getItem('curLng'),
+        "uber_user_credentials": credentials,
+        "display_products": true,
+        "current_latitude": localStorage.getItem('curLat'),
+        "current_longitude": localStorage.getItem('curLng'),
       }
 
       console.log("product request")
@@ -72,15 +72,15 @@ export default class UberButton extends Component {
       console.log(product)
 
       const data2 = {
-        uber_user_credentials: credentials,
-        display_products: true,
-        get_estimate: true,
-        current_latitude: localStorage.getItem('curLat'),
-        current_longitude: localStorage.getItem('curLng'),
-        destination_latitude: localStorage.getItem('desLat'),
-        destination_longitude: localStorage.getItem('desLng'),
-        passenger_amt: 2,
-        product_id: product[0].product_id
+        "uber_user_credentials": credentials,
+        "display_products": true,
+        "get_estimate": true,
+        "current_latitude": localStorage.getItem('curLat'),
+        "current_longitude": localStorage.getItem('curLng'),
+        "destination_latitude": localStorage.getItem('desLat'),
+        "destination_longitude": localStorage.getItem('desLng'),
+        "passenger_amt": 2,
+        "product_id": product[0].product_id
       }
       
       console.log("product request")
@@ -99,17 +99,17 @@ export default class UberButton extends Component {
       // const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
 
       const data3 = {
-        uber_user_credentials: credentials,
-        request_ride: true,
-        get_estimate: true,
-        display_products: true,
-        product_id: product[0].product_id,
-        fare_id: fare.fare_id,
-        current_latitude: localStorage.getItem('curLat'),
-        current_longitude: localStorage.getItem('curLng'),
-        destination_latitude: localStorage.getItem('desLat'),
-        destination_longitude: localStorage.getItem('desLng'),
-        passenger_amt: 2
+        "uber_user_credentials": credentials,
+        "request_ride": true,
+        "get_estimate": true,
+        "display_products": true,
+        "product_id": product[0].product_id,
+        "fare_id": fare.fare_id,
+        "current_latitude": localStorage.getItem('curLat'),
+        "current_longitude": localStorage.getItem('curLng'),
+        "destination_latitude": localStorage.getItem('desLat'),
+        "destination_longitude": localStorage.getItem('desLng'),
+        "passenger_amt": 2
       }
 
       const ride = await axios({
