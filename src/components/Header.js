@@ -76,7 +76,10 @@ class HeaderNav extends Component {
         const curDate = new Date()
         const tokenExpire = localStorage.tokenExpire ? new Date(localStorage.getItem('tokenExpire')) : new Date()
         if (window.location.href.includes('code')){
-            axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
+            axios.post(
+                'https://next-foodme.herokuapp.com/api/v1/uber/request/', 
+                // 'http://localhost:8000/api/v1/uber/request/',
+            {
                 uber_code_url: window.location.href,
             })
             .then( res => {
@@ -105,6 +108,7 @@ class HeaderNav extends Component {
             axios({
                 method:'post',
                 url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+                // url: 'http://localhost:8000/api/v1/uber/request/',
                 header: {
                     'Content-Type':'application/json'
                 }
@@ -116,6 +120,7 @@ class HeaderNav extends Component {
                     loading: false,
                     authURL: res.data.authentication_url
                 })
+                localStorage.setItem('client', res.data.client)
             })
             .catch( err  => {
                 console.log('ERROR: ', err)

@@ -88,7 +88,7 @@ class RestaurantShowPage extends Component {
        
         try{
             let bizId = ''
-            if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
+            if(this.props.location.state.id){
                 console.log("loading from props")
                 bizId = this.props.location.state.id 
             } else {
@@ -97,6 +97,9 @@ class RestaurantShowPage extends Component {
             }
             const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}`)
             const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}/reviews`)
+
+            // const biz = await axios.get(`http://localhost:8000/api/v1/businesses/${bizId}`)
+            // const reviews = await axios.get(`http://localhost:8000/api/v1/businesses/${bizId}/reviews`)
 
             this.setState({
                 id: biz.data.id,
@@ -175,9 +178,10 @@ class RestaurantShowPage extends Component {
                         </FirstColumn>
                        <UberButton bizId={this.state.id}/>
                     </div>
+                }
           </div>
-          );
+        )
     }
 }
 
-export default RestaurantShowPage;
+export default RestaurantShowPage
