@@ -50,8 +50,16 @@ export default class UberButton extends Component {
       console.log("product request")
       console.log(data1)
 
+      const product = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        body: data1
+      })
 
-      const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+      // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
 
       
       const data2 = {
@@ -68,8 +76,17 @@ export default class UberButton extends Component {
       
       console.log("product request")
       console.log(data2)
+
+      const fare = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        body: data2
+      })
       
-      const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
+      // const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
 
       const data3 = {
         uber_user_credentials: credentials,
@@ -85,10 +102,19 @@ export default class UberButton extends Component {
         passenger_amt: 2
       }
 
+      const ride = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        body: data3
+      })
+
       console.log("getting ride request")
       console.log(data3)
 
-      const ride = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data3)
+      // const ride = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data3)
 
       
       console.log(ride)
@@ -107,16 +133,6 @@ export default class UberButton extends Component {
     render() {
       return (
         <div>
-          { this.state.loading && <Loading /> }
-          {
-            this.state.isSuccess
-              ? 
-                <div>
-                  <h1>You are now connected to uber</h1>
-                  <a href={this.state.authURL}>Continue</a>
-                </div>
-              : <h1>Something went wrong. Try again.</h1>
-            }
             { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
               ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer>
               : ''
