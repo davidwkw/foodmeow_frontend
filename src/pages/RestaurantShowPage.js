@@ -98,6 +98,9 @@ class RestaurantShowPage extends Component {
             const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}`)
             const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}/reviews`)
 
+            // const biz = await axios.get(`http://localhost:8000/api/v1/businesses/${bizId}`)
+            // const reviews = await axios.get(`http://localhost:8000/api/v1/businesses/${bizId}/reviews`)
+
             this.setState({
                 id: biz.data.id,
                 name: biz.data.name,

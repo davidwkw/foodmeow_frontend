@@ -24,10 +24,6 @@ const Uber = styled.button`
 `
 
 
-const uberCall = uberToken => {
-  const data = uberToken ? { access_token: uberToken } : {}
-  return axios.get('/request', data) //JS Promise
-}
 export default class UberButton extends Component {
     state = {
       loading: false
@@ -61,13 +57,15 @@ export default class UberButton extends Component {
       const product = await axios({
         method:'post',
         url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
-        header: {
+        // url: 'http://localhost:8000/api/v1/uber/request/',
+        data: JSON.stringify(data1),
+        headers: {
             'Content-Type':'application/json'
         },
-        data1
       })
 
       // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+      // const product = await axios.post("http://localhost:8000/api/v1/uber/request/", data1)
 
       console.log(product)
 
@@ -89,10 +87,11 @@ export default class UberButton extends Component {
       const fare = await axios({
         method:'post',
         url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        // url: 'http://localhost:8000/api/v1/uber/request/',
         header: {
             'Content-Type':'application/json'
         },
-        data2
+        body:data2,
       })
       
       console.log(fare)
@@ -115,10 +114,11 @@ export default class UberButton extends Component {
       const ride = await axios({
         method:'post',
         url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        // url: 'http://localhost:8000/api/v1/uber/request/',
         header: {
             'Content-Type':'application/json'
         },
-        data3
+        body: data3,
       })
       console.log("getting ride request")
       console.log(data3)

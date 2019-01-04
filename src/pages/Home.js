@@ -76,7 +76,6 @@ class Home extends Component {
                     <div>
                       <Loading/>
                     </div>
-        
         }
       </div>
     )
