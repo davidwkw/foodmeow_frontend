@@ -56,7 +56,7 @@ export default class UberButton extends Component {
 
       const product = await axios({
         method:'post',
-        url: `https://api.uber.com/v1.2/products?latitude=${localStorage.getItem('curLat')}&longitude=${localStorage.getItem('curLng')}`,
+        url: `https://sandbox-api.uber.com/v1.2/products?latitude=${localStorage.getItem('curLat')}&longitude=${localStorage.getItem('curLng')}`,
         // url: 'http://localhost:8000/api/v1/uber/request/',
         // data: JSON.stringify(data1),
         headers: {
