@@ -96,9 +96,10 @@ class RestaurantShowPage extends Component {
         this.setState({
             loading: true
         })
+       
         try{
             let bizId = ''
-            if(localStorage.bizId === undefined){
+            if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
                 console.log("loading from props")
                 bizId = this.props.location.state.id 
             } else {
@@ -122,7 +123,12 @@ class RestaurantShowPage extends Component {
                 reviews: reviews.data.reviews,
                 loading: false
             })
-            localStorage.removeItem('bizId')
+            // localStorage.removeItem('bizId')
+            console.log(biz.data)
+            localStorage.setItem('bizId', biz.data.id)
+            localStorage.setItem('desLat', biz.data.coordinates.latitude)
+            localStorage.setItem('desLng', biz.data.coordinates.longitude)
+            console.log(localStorage)
         } catch(e) {
             console.log(e)
         }

@@ -3,88 +3,150 @@ import React, { Component } from 'react';
 import Loading from './Loading';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const UberContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+`
+
+const Uber = styled.button`
+  display: inline-block;
+  margin: auto;
+  background-color: black;
+  color: white;
+  text-align: center;
+  width: 75%;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+`
+
 
 const uberCall = uberToken => {
   const data = uberToken ? { access_token: uberToken } : {}
   return axios.get('/request', data) //JS Promise
 }
 export default class UberButton extends Component {
-  state = {
-    loading: false
-  }
+    state = {
+      loading: false
+    }
+    
+    dummyCall = () => {
+      window.open("https://m.uber.com/ul/?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383", "_blank")
+    }
 
-
-  componentDidMount() {
-    this.setState({
-      loading: true,
-      uberAuthenticated: false,
-    })
-    // axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
-    //   uber_code_url: window.location.href,
-    // })
-
-    axios({
-      method: 'post',
-      url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
-      header: {
-        'Content-Type': 'application/json'
+    async callUber() {
+      // this.uberCall(localStorage.getItem("uberToken"))
+      console.log("in call Uber")
+      console.log(localStorage)
+      const credentials = {
+          access_token: localStorage.getItem('uberToken'),
+          refresh_token: localStorage.getItem('refreshToken'),
+          expire_in_seconds: localStorage.getItem('expires'),
+          scope: localStorage.getItem('scopes')
       }
-    })
-      .then(res => {
-        console.log("In componentDidMount")
-        console.log(res)
-        console.log(res.data.authentication_url)
-        // localStorage.setItem('uberToken', res.access_token)
-        this.setState({
-          authentication_url: res.data.authentication_url,
-          isSuccess: true,
-          loading: false
-        })
-        console.log("opening new window")
-        window.open(res.data.authentication_url, '_self')
-        localStorage.setItem('bizId', this.props.biz_id)
-      })
-      .catch(err => {
-        console.log(err)
-        this.setState({
-          isSuccess: false,
-          loading: false
-        })
-      })
-  }
 
-  uberCall = uberToken => {
-    const data = uberToken ? { access_token: uberToken } : {}
-    return axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request', data) //JS Promise
-  }
+      const data1 = {
+        uber_user_credentials: credentials,
+        display_products: true,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+      }
 
+      console.log("product request")
+      console.log(data1)
 
-  onClick = e => {
-    this.uberCall(localStorage.getItem("uberToken"))
-      .then(res => {
-        console.log("In UberCall click")
-        console.log(res)
+      const product = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        data1
       })
-      .catch(err => {
-        console.log(err)
-      })
-  }
 
-  render() {
-    return (
-      <div>
-        {this.state.loading && <Loading />}
-        {
-          this.state.isSuccess
-            ?
-            <div>
-              <h1>You are now connected to uber</h1>
-              <a href={this.state.authentication_url}>Continue</a>
-            </div>
-            : <h1>Something went wrong. Try again.</h1>
-        }
-        <button onClick={this.onClick}>Call Uber</button>
-      </div>
-    )
-  }
+      // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+
+      console.log(product)
+
+      const data2 = {
+        uber_user_credentials: credentials,
+        display_products: true,
+        get_estimate: true,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+        destination_latitude: localStorage.getItem('desLat'),
+        destination_longitude: localStorage.getItem('desLng'),
+        passenger_amt: 2,
+        product_id: product[0].product_id
+      }
+      
+      console.log("product request")
+      console.log(data2)
+
+      const fare = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        data2
+      })
+      
+      console.log(fare)
+      // const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
+
+      const data3 = {
+        uber_user_credentials: credentials,
+        request_ride: true,
+        get_estimate: true,
+        display_products: true,
+        product_id: product[0].product_id,
+        fare_id: fare.fare_id,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+        destination_latitude: localStorage.getItem('desLat'),
+        destination_longitude: localStorage.getItem('desLng'),
+        passenger_amt: 2
+      }
+
+      const ride = await axios({
+        method:'post',
+        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        header: {
+            'Content-Type':'application/json'
+        },
+        data3
+      })
+      console.log("getting ride request")
+      console.log(data3)
+
+      // const ride = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data3)
+
+      
+      console.log(ride)
+      // console.log("checking ride request payload")
+      // console.log(data)
+      // axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data)
+      // .then(res => {
+      //   console.log("In UberCall click")
+      //   console.log(res)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
+    }
+    
+    render() {
+      return (
+        <div>
+            { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
+              ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer>
+              : <UberContainer><Uber onClick={this.dummyCall}>Call Uber</Uber></UberContainer>
+            }
+        </div>
+      )
+    }
 }

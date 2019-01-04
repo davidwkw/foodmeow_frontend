@@ -20,14 +20,16 @@ const Marker = ({ text }) => (
 class Maps extends Component {
   state = {
       center: {},
-      zoom: 10
+      zoom: 7
   }
 
   componentDidMount(){
       this.setState({
           center:{
-              lat: this.props.coordinates.latitude,
-              lng: this.props.coordinates.longitude
+              // lat: this.props.coordinates.latitude,
+              // lng: this.props.coordinates.longitude
+              lat: parseInt(localStorage.getItem('desLat')),
+              lng: parseInt(localStorage.getItem('desLng'))
           }
       })
   }

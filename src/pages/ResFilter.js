@@ -76,26 +76,30 @@ class ResFilter extends Component {
   }
 
   fetchResData = (e) => {
-    e.preventDefault()
-    this.setState({
-      isLoading: true
-    })
-    const checkedPrice = this.state.prices.find(obj => obj.isChecked)
-    const params = {
-      latitude: this.props.coords.latitude,
-      longitude: this.props.coords.longitude,
-      radius: this.state.radius * 1000,
-      categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
-      price: checkedPrice ? checkedPrice.value : '',
-    }
-    axios({
-      method: 'get',
-      url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
-      params,
-      // headers: {
-      //   'Authorization': `Bearer ${this.getJWTToken()}`,
-      // },
-    })
+      e.preventDefault()
+      this.setState({
+        isLoading: true
+      })
+      localStorage.setItem('curLat', 6.91832755)
+      localStorage.setItem('curLng', 79.86837856727331)
+      const checkedPrice = this.state.prices.find(obj => obj.isChecked)
+      const params = {
+        latitude: 37.4429964,
+        longitude: -122.1545229,
+        // latitude: this.props.coords.latitude,
+        // longitude: this.props.coords.longitude,
+        radius: this.state.radius * 1000,
+        categories: this.state.multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+        price: checkedPrice ? checkedPrice.value : '',
+      }
+      axios({
+        method: 'get',
+        url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
+        params,
+        // headers: {
+        //   'Authorization': `Bearer ${this.getJWTToken()}`,
+        // },
+      })
       .then(res => {
         console.log("displaying biz search results")
         console.log(res)
