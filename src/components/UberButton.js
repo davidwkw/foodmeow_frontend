@@ -61,7 +61,8 @@ export default class UberButton extends Component {
 
       // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
 
-      
+      console.log(product)
+
       const data2 = {
         uber_user_credentials: credentials,
         display_products: true,
@@ -86,6 +87,7 @@ export default class UberButton extends Component {
         body: data2
       })
       
+      console.log(fare)
       // const fare = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data2)
 
       const data3 = {
