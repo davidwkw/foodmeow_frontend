@@ -16,10 +16,6 @@ class Home extends Component {
     loading: false,
   }
 
-  componentDidMount(){
-    localStorage.clear()
-  }
-
   render() {
     console.log("IN home page")
     console.log(this.props)

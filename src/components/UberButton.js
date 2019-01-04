@@ -29,75 +29,68 @@ export default class UberButton extends Component {
       loading: false
     }
     
-    componentDidMount() {
-      this.setState({
-        loading: true,
-      })
-      console.log("checking for location search")
-      console.log(this.props)
-      console.log(window.location)
-      if(window.location.href !== "https://react-foodme.herokuapp.com/restaurant" || window.location.href !== "http://localhost:3000/restaurant"){
-        axios.post('https://next-foodme.herokuapp.com/api/v1/uber/request/', {
-          uber_code_url: window.location.href,
-        })
-        .then( res => {
-          console.log("getting user credentials")
-          console.log(res)
-          localStorage.setItem('uberToken', res.data.uber_user_credentials.access_token)
-          localStorage.setItem('expires', res.data.uber_user_credentials.expires_in_seconds)
-          localStorage.setItem('refreshToken', res.data.uber_user_credentials.refresh_token)
-          localStorage.setItem('scopes', res.data.uber_user_credentials.scopes)
-          this.setState({
-            loading: false,
-            credentials: res.data.uber_user_credentials,
-          })
-        })
-        .catch( err => {
-          console.log(err)
-          this.setState({
-            loading:false
-          })
-        })
-      } 
-
-    }
-
-    uberCall = uberToken => {
-      const data = uberToken ? {access_token: uberToken} : {}
-      return axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data) //JS Promise
-    }
-    
-    
-    callUber = e => {
+    async callUber() {
       // this.uberCall(localStorage.getItem("uberToken"))
       console.log("in call Uber")
       console.log(localStorage)
-      const data = {
-        uber_user_credentials:{
+      const credentials = {
           access_token: localStorage.getItem('uberToken'),
           refresh_token: localStorage.getItem('refreshToken'),
           expire_in_seconds: localStorage.getItem('expires'),
           scope: localStorage.getItem('scopes')
-        },
+      }
+
+      const data1 = {
+        uber_user_credentials: credentials,
+        display_products: true,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+      }
+
+      const product = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data1)
+
+      const data2 = {
+        uber_user_credentials: credentials,
+        display_products: true,
+        get_estimate: true,
+        current_latitude: localStorage.getItem('curLat'),
+        current_longitude: localStorage.getItem('curLng'),
+        destination_latitude: localStorage.getItem('desLat'),
+        destination_longitude: localStorage.getItem('desLng'),
+        passenger_amt: 2,
+        product_id: product[0].product_id
+      }
+
+      const fare = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data2)
+
+      const data3 = {
+        uber_user_credentials: credentials,
         request_ride: true,
         get_estimate: true,
         display_products: true,
+        product_id: product[0].product_id,
+        fare_id: fare.fare_id,
         current_latitude: localStorage.getItem('curLat'),
         current_longitude: localStorage.getItem('curLng'),
         destination_latitude: localStorage.getItem('desLat'),
         destination_longitude: localStorage.getItem('desLng'),
         passenger_amt: 2
       }
-      console.log("checking ride request payload")
-      console.log(data)
-      axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data)
-      .then(res => {
-        console.log("In UberCall click")
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+
+      const ride = await axios.post("https://www.next-foodme.herokuapp.com/api/v1/uber/request/", data3)
+
+      console.log("getting ride result")
+      console.log(ride)
+      // console.log("checking ride request payload")
+      // console.log(data)
+      // axios.post('https://www.next-foodme.herokuapp.com/api/v1/uber/request/', data)
+      // .then(res => {
+      //   console.log("In UberCall click")
+      //   console.log(res)
+      // })
+      // .catch(err => {
+      //   console.log(err)
+      // })
     }
     
     render() {
