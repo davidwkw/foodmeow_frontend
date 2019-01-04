@@ -4,7 +4,32 @@ import styled from 'styled-components';
 
 import Loading from "../components/Loading";
 import ResFilter from "../pages/ResFilter";
+import DeadImage from "../dead.png";
 import axios from 'axios';
+
+const Dead = styled.div`
+  background-color: lightblue;
+  width: 250px;
+  height: 250px;
+  border-radius: 100%;
+  overflow: hidden;
+`
+
+const DeadContainer = styled.div`
+  position: fixed;
+  display: inline-block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+`
+
+const Img = styled.img`
+  position: absolute;
+  top: 55px;
+  left: 55px;
+  width: 50%;
+`
 
 
 class Home extends Component {
@@ -14,6 +39,10 @@ class Home extends Component {
     limit: 5,
     price: '',
     loading: false,
+  }
+
+  reloadPage = () => {
+    window.location.reload()
   }
 
   render() {
@@ -31,7 +60,12 @@ class Home extends Component {
             !this.props.isGeolocationAvailable
               ? <div>Your browser does not support Geolocation</div>
               : !this.props.isGeolocationEnabled
-                ? <div>Geolocation is not enabled</div>
+                ? <DeadContainer>
+                      <Dead onClick={this.reloadPage}>
+                        <Img src={DeadImage} alt="dead logo"/>
+                      </Dead>
+                      <p style="text-align: center;">Geolocation not enabled, click to refresh</p>
+                  </DeadContainer>
                 : this.props.coords
                   ?   
                     <div>

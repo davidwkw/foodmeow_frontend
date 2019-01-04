@@ -29,6 +29,10 @@ export default class UberButton extends Component {
       loading: false
     }
     
+    dummyCall = () => {
+      window.open("https://m.uber.com/ul/?client_id=<CLIENT_ID>&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.802374&dropoff[longitude]=-122.405818&dropoff[nickname]=Coit%20Tower&dropoff[formatted_address]=1%20Telegraph%20Hill%20Blvd%2C%20San%20Francisco%2C%20CA%2094133&product_id=a1111c8c-c720-46c3-8534-2fcdd730040d&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383", "_blank")
+    }
+
     async callUber() {
       // this.uberCall(localStorage.getItem("uberToken"))
       console.log("in call Uber")
@@ -137,7 +141,7 @@ export default class UberButton extends Component {
         <div>
             { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
               ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer>
-              : ''
+              : <UberContainer><Uber onClick={this.dummyCall}>Call Uber</Uber></UberContainer>
             }
         </div>
       )
