@@ -78,30 +78,31 @@ class ResFilter extends Component {
   }
 
   fetchResData = (e) => {
-    const { currentLatitude, currentLongitude, radius, multiSelect, prices } = this.state
-    e.preventDefault()
-    this.setState({
-      isLoading: true
-    })
-    const checkedPrice = prices.find(obj => obj.isChecked)
-    const params = {
-      latitude: currentLatitude,
-      longitude: currentLongitude,
-      radius: radius * 1000,
-      categories: multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
-      price: checkedPrice ? checkedPrice.value : '',
-    }
-
-    console.log(params)
-    axios({
-      method: 'get',
-      url: 'http://localhost:8000/api/v1/businesses/search/',
-      // url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
-      params,
-      // headers: {
-      //   'Authorization': `Bearer ${this.getJWTToken()}`,
-      // },
-    })
+      const { currentLatitude, currentLongitude, radius, multiSelect, prices } = this.state
+      e.preventDefault()
+      this.setState({
+        isLoading: true
+      })
+      localStorage.setItem('curLat', 37.4429964 )
+      localStorage.setItem('curLng', -122.1545229)
+      const checkedPrice = prices.find(obj => obj.isChecked)
+      const params = {
+        latitude: 37.4429964,
+        longitude: -122.1545229,
+        // latitude: this.props.coords.latitude,
+        // longitude: this.props.coords.longitude,
+        radius: radius * 1000,
+        categories: multiSelect.filter(obj => obj.value).map(item => item.label).join(','),
+        price: checkedPrice ? checkedPrice.value : '',
+      }
+      axios({
+        method: 'get',
+        url: 'http://next-foodme.herokuapp.com/api/v1/businesses/search/',
+        params,
+        // headers: {
+        //   'Authorization': `Bearer ${this.getJWTToken()}`,
+        // },
+      })
       .then(res => {
         console.log("displaying biz search results")
         console.log(res)

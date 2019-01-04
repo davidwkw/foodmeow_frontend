@@ -85,9 +85,18 @@ class RestaurantShowPage extends Component {
         this.setState({
             loading: true
         })
-        try {
-            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}`)
-            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${this.props.location.state.id}/reviews`)
+       
+        try{
+            let bizId = ''
+            if(localStorage.bizId === 'undefined' || localStorage.bizId === undefined){
+                console.log("loading from props")
+                bizId = this.props.location.state.id 
+            } else {
+                console.log("loading from localStorage")
+                bizId = localStorage.getItem('bizId')
+            }
+            const biz = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}`)
+            const reviews = await axios.get(`https://next-foodme.herokuapp.com/api/v1/businesses/${bizId}/reviews`)
 
             this.setState({
                 id: biz.data.id,
@@ -103,7 +112,13 @@ class RestaurantShowPage extends Component {
                 reviews: reviews.data.reviews,
                 loading: false
             })
-        } catch (e) {
+            // localStorage.removeItem('bizId')
+            console.log(biz.data)
+            localStorage.setItem('bizId', biz.data.id)
+            localStorage.setItem('desLat', biz.data.coordinates.latitude)
+            localStorage.setItem('desLng', biz.data.coordinates.longitude)
+            console.log(localStorage)
+        } catch(e) {
             console.log(e)
         }
     }
@@ -116,7 +131,7 @@ class RestaurantShowPage extends Component {
                 {this.state.loading
                     ? <Loading />
                     :
-                    <>
+                    <div>
                         <FirstColumn>
                             <BannerImage src={image_url} alt="food placeholder" />
                             <Inline>
@@ -137,7 +152,6 @@ class RestaurantShowPage extends Component {
                                 <Star number={rating} />
                             </Inline>
                             <hr />
-
                             <MuiThemeProvider tabTemplateStyle={{ backgroundColor: "white" }}>
                                 <Tabs
                                     onChange={this.handleChange}
@@ -159,11 +173,10 @@ class RestaurantShowPage extends Component {
                                 </Tabs>
                             </MuiThemeProvider>
                         </FirstColumn>
-                        <UberButton />
-                    </>
-                }
-            </div>
-        );
+                       <UberButton bizId={this.state.id}/>
+                    </div>
+          </div>
+          );
     }
 }
 
