@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {geolocated} from 'react-geolocated';
+import { geolocated } from 'react-geolocated';
 import styled from 'styled-components';
 
 import Loading from "../components/Loading";
@@ -33,7 +33,7 @@ const Img = styled.img`
 
 
 class Home extends Component {
-  state = { 
+  state = {
     radius: 100,
     categories: '',
     limit: 5,
@@ -46,11 +46,11 @@ class Home extends Component {
   }
 
   render() {
-    console.log("IN home page")
-    console.log(this.props)
-    console.log(this.props.coords)
-    console.log(this.props.isGeolocationAvailable)
-    console.log(this.props.isGeolocationEnabled)
+    // console.log("IN home page")
+    // console.log(this.props)
+    // console.log(this.props.coords)
+    // console.log(this.props.isGeolocationAvailable)
+    // console.log(this.props.isGeolocationEnabled)
     return (
       <div>
         { this.state.loading 
@@ -79,7 +79,7 @@ class Home extends Component {
         }
       </div>
     )
-    
+
   }
 }
 

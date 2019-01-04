@@ -1,5 +1,5 @@
 // Page with button to call uber
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Loading from './Loading';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -24,6 +24,10 @@ const Uber = styled.button`
 `
 
 
+const uberCall = uberToken => {
+  const data = uberToken ? { access_token: uberToken } : {}
+  return axios.get('/request', data) //JS Promise
+}
 export default class UberButton extends Component {
     state = {
       loading: false
@@ -116,7 +120,6 @@ export default class UberButton extends Component {
         },
         data3
       })
-
       console.log("getting ride request")
       console.log(data3)
 
