@@ -153,10 +153,10 @@ export default class UberButton extends Component {
     render() {
       return (
         <div>
-            { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined
-              ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer>
-              : <UberContainer><Uber onClick={this.dummyCall}>Call Uber</Uber></UberContainer>
-            }
+            {/* { localStorage.uberToken !== 'undefined' || localStorage.uberToken !== undefined */}
+              {/* ? <UberContainer><Uber onClick={this.callUber}>Call Uber</Uber></UberContainer> */}
+              <UberContainer><Uber onClick={this.dummyCall}>Call Uber</Uber></UberContainer>
+            {/* } */}
         </div>
       )
     }
