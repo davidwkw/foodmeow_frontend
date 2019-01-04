@@ -56,7 +56,7 @@ export default class UberButton extends Component {
         header: {
             'Content-Type':'application/json'
         },
-        body: data1
+        data1
       })
 
       // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
@@ -84,7 +84,7 @@ export default class UberButton extends Component {
         header: {
             'Content-Type':'application/json'
         },
-        body: data2
+        data2
       })
       
       console.log(fare)
@@ -110,7 +110,7 @@ export default class UberButton extends Component {
         header: {
             'Content-Type':'application/json'
         },
-        body: data3
+        data3
       })
 
       console.log("getting ride request")
