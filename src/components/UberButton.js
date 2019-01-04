@@ -56,13 +56,24 @@ export default class UberButton extends Component {
 
       const product = await axios({
         method:'post',
-        url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+        url: `https://api.uber.com/v1.2/products?latitude=${localStorage.getItem('curLat')}&longitude=${localStorage.getItem('curLng')}`,
         // url: 'http://localhost:8000/api/v1/uber/request/',
-        data: JSON.stringify(data1),
+        // data: JSON.stringify(data1),
         headers: {
-            'Content-Type':'application/json'
+            'Content-Type':'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('uberToken')}`
         },
       })
+
+      // const product = await axios({
+      //   method:'post',
+      //   url: 'https://next-foodme.herokuapp.com/api/v1/uber/request/',
+      //   // url: 'http://localhost:8000/api/v1/uber/request/',
+      //   data: JSON.stringify(data1),
+      //   headers: {
+      //       'Content-Type':'application/json'
+      //   },
+      // })
 
       // const product = await axios.post("https://next-foodme.herokuapp.com/api/v1/uber/request/", data1)
       // const product = await axios.post("http://localhost:8000/api/v1/uber/request/", data1)

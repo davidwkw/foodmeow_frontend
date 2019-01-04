@@ -120,6 +120,7 @@ class HeaderNav extends Component {
                     loading: false,
                     authURL: res.data.authentication_url
                 })
+                localStorage.setItem('client', res.data.client)
             })
             .catch( err  => {
                 console.log('ERROR: ', err)
