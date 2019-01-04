@@ -175,9 +175,10 @@ class RestaurantShowPage extends Component {
                         </FirstColumn>
                        <UberButton bizId={this.state.id}/>
                     </div>
+                }
           </div>
-          );
+        )
     }
 }
 
-export default RestaurantShowPage;
+export default RestaurantShowPage
